@@ -27,4 +27,8 @@ public interface ExcelReaderService {
 	  public List<ExcelReader> getExcelReadersByDueDateRange(LocalDate startDate, LocalDate endDate);
 	  
 	  public List<ExcelReader> GetAllData();
+	  
+	  
+	  //Inserting the data
+	  ExcelReader insertExcelReader(ExcelReader excelReader);
 }

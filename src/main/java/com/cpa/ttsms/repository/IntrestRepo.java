@@ -8,7 +8,7 @@ import com.cpa.ttsms.entity.IntrestData;
 public interface IntrestRepo  extends JpaRepository<IntrestData, Integer>  {
 	
 	
-	@Query(value = "Select * from setup_data where id=?1", nativeQuery = true)
-	public IntrestData getSetupDataByID(int id);
+	@Query(value = "select * from intrest_data", nativeQuery = true)
+	public IntrestData getSetupDataByID();
 
 }

@@ -46,8 +46,8 @@ public class ExcelReader {
 	@Column(name = "PaidDate")
 	private LocalDate paidDate;
 
-	@Column(name = "CreditDays")
-	private Integer creditDays;
+//	@Column(name = "CreditDays")
+//	private Integer creditDays;
 
 	@Column(name = "DueDate")
 	private LocalDate dueDate;
@@ -60,6 +60,13 @@ public class ExcelReader {
 
 	@Column(name = "SecondPaidDate")
 	private LocalDate secondPaidDate;
+	
+	
+	@Column(name = "credited_days")
+	private int creditDays;
+	
+	
+	
 
 	public int getId() {
 		return id;
@@ -133,13 +140,13 @@ public class ExcelReader {
 		this.paidDate = paidDate;
 	}
 
-	public Integer getCreditDays() {
-		return creditDays;
-	}
-
-	public void setCreditDays(Integer creditDays) {
-		this.creditDays = creditDays;
-	}
+//	public Integer getCreditDays() {
+//		return creditDays;
+//	}
+//
+//	public void setCreditDays(Integer creditDays) {
+//		this.creditDays = creditDays;
+//	}
 
 	public LocalDate getDueDate() {
 		return dueDate;
@@ -172,10 +179,33 @@ public class ExcelReader {
 	public void setSecondPaidDate(LocalDate secondPaidDate) {
 		this.secondPaidDate = secondPaidDate;
 	}
+	
+	
+	
+
+	
+	
+	
+
+
+	
+
+	
+	
+
+	public int getCreditDays() {
+		return creditDays;
+	}
+
+	public void setCreditDays(int creditDays) {
+		this.creditDays = creditDays;
+	}
+
+
 
 	public ExcelReader(int id, String invoiceNo, LocalDate invoiceDate, Double invoiceAmt, Double financedAmount,
-			Double setup, Double interest, Double paidAmt, LocalDate paidDate, Integer creditDays, LocalDate dueDate,
-			LocalDate recdDate, Double balAmt, LocalDate secondPaidDate) {
+			Double setup, Double interest, Double paidAmt, LocalDate paidDate, LocalDate dueDate, LocalDate recdDate,
+			Double balAmt, LocalDate secondPaidDate, int creditDays) {
 		super();
 		this.id = id;
 		this.invoiceNo = invoiceNo;
@@ -186,11 +216,11 @@ public class ExcelReader {
 		this.interest = interest;
 		this.paidAmt = paidAmt;
 		this.paidDate = paidDate;
-		this.creditDays = creditDays;
 		this.dueDate = dueDate;
 		this.recdDate = recdDate;
 		this.balAmt = balAmt;
 		this.secondPaidDate = secondPaidDate;
+		this.creditDays = creditDays;
 	}
 
 	public ExcelReader() {
@@ -202,10 +232,16 @@ public class ExcelReader {
 	public String toString() {
 		return "ExcelReader [id=" + id + ", invoiceNo=" + invoiceNo + ", invoiceDate=" + invoiceDate + ", invoiceAmt="
 				+ invoiceAmt + ", financedAmount=" + financedAmount + ", setup=" + setup + ", interest=" + interest
-				+ ", paidAmt=" + paidAmt + ", paidDate=" + paidDate + ", creditDays=" + creditDays + ", dueDate="
-				+ dueDate + ", recdDate=" + recdDate + ", balAmt=" + balAmt + ", secondPaidDate=" + secondPaidDate
-				+ "]";
+				+ ", paidAmt=" + paidAmt + ", paidDate=" + paidDate + ", dueDate=" + dueDate + ", recdDate=" + recdDate
+				+ ", balAmt=" + balAmt + ", secondPaidDate=" + secondPaidDate + ", creditDays=" + creditDays + "]";
 	}
+
+	
+	
+
+
+
+	
 
 	
 }

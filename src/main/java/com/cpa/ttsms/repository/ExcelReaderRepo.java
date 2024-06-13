@@ -18,6 +18,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cpa.ttsms.entity.ExcelReader;
+import com.cpa.ttsms.entity.IntrestData;
 
 @Repository
 public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
@@ -39,6 +40,9 @@ public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
 	 
 	 
 	 List<ExcelReader> findAllBydueDateBetween(LocalDate startDate, LocalDate endDate);
+	 
+	 
+	
 		
 	
 

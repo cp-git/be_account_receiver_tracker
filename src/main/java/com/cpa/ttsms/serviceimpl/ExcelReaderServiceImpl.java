@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cpa.ttsms.entity.ExcelReader;
+import com.cpa.ttsms.entity.IntrestData;
 import com.cpa.ttsms.repository.ExcelReaderRepo;
+import com.cpa.ttsms.repository.IntrestRepo;
 import com.cpa.ttsms.service.ExcelReaderService;
 
 @Service
@@ -29,6 +31,10 @@ public class ExcelReaderServiceImpl implements ExcelReaderService {
     @Autowired
     private ExcelReaderRepo excelReaderRepo;
     private static Logger logger;
+    
+    
+    @Autowired
+    private IntrestRepo intrestRepo;
 
     public ExcelReaderServiceImpl() {
         logger = Logger.getLogger(ExcelReaderServiceImpl.class);
@@ -62,7 +68,7 @@ public class ExcelReaderServiceImpl implements ExcelReaderService {
 //    	                invoiceDetails.setInterest(getCellValueAsDouble(row.getCell(5)));
 //    	                invoiceDetails.setPaidAmt(getCellValueAsDouble(row.getCell(6)));
 //    	                invoiceDetails.setPaidDate(convertToLocalDate(row.getCell(7)));
-    	                invoiceDetails.setCreditDays(getCellValueAsInteger(row.getCell(8)));
+ //   	                invoiceDetails.setCreditDays(getCellValueAsInteger(row.getCell(8)));
 //    	                invoiceDetails.setDueDate(convertToLocalDate(row.getCell(9)));
 //    	                invoiceDetails.setRecdDate(convertToLocalDate(row.getCell(10)));
 //    	                invoiceDetails.setBalAmt(getCellValueAsDouble(row.getCell(11)));
@@ -98,7 +104,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
     	               
     	               LocalDate currentDate = invoiceDetails.getInvoiceDate();
     	                
-    	               invoiceDetails.setDueDate(currentDate.plusDays(invoiceDetails.getCreditDays()));
+    	             //  invoiceDetails.setDueDate(currentDate.plusDays(invoiceDetails.getCreditDays()));
     	               invoiceDetails.setInterest(IntrestRate);
     	               
     	               invoiceDetails.setPaidAmt(paidAmount);
@@ -182,6 +188,71 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	public List<ExcelReader> GetAllData() {
 		// TODO Auto-generated method stub
 		return excelReaderRepo.findAll();
+	}
+
+	@Override
+	public ExcelReader insertExcelReader(ExcelReader excelReader) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		
+//		IntrestData instestData=intrestRepo.getSetupDataByID(excelReader.getSetupinstrest());
+//		System.out.println(instestData);
+		
+//		
+
+		IntrestData instestData=intrestRepo.getSetupDataByID();
+         System.out.println(instestData);
+		
+		//INTREST_RATE 
+		Double finance_rate=instestData.getFinance_percent();
+//		
+//		
+//		//SETUP_PERCENTAGE
+		double setuprate_percent=instestData.getSetup_percent();
+//		
+//		//Instrest rate
+//		
+    	double instrestrate_percent=instestData.getInstrest_rate();
+//		
+//		
+		  Double finanaceAmount= excelReader.getInvoiceAmt()* finance_rate / 100;
+          System.out.println(finanaceAmount);
+//          //Balance amount
+          Double balanceAmount=excelReader.getInvoiceAmt()-finanaceAmount;
+//          
+//          //Setup
+          Double SetUpAmount=finanaceAmount * setuprate_percent /100;
+//          
+//          //IntrestRate 
+          Double IntrestRate=finanaceAmount*instrestrate_percent/100;
+//          
+//          //paid Amount
+          Double paidAmount=finanaceAmount-IntrestRate-SetUpAmount;
+//          
+          excelReader.setFinancedAmount(finanaceAmount);
+          excelReader.setSetup(SetUpAmount);
+          excelReader.setInterest(IntrestRate);
+          excelReader.setPaidAmt(paidAmount);
+          excelReader.setBalAmt(balanceAmount);
+         
+          
+//          
+//          
+//          
+//          
+//          
+          LocalDate currentDate = excelReader.getInvoiceDate();
+           
+          excelReader.setDueDate(currentDate.plusDays(instestData.getCredited_days()));
+          
+          excelReader.setCreditDays(instestData.getCredited_days());
+          
+         
+		
+	
+		return excelReaderRepo.save(excelReader);
 	}
 
 }

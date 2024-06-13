@@ -112,6 +112,29 @@ public class ExcelReaderController {
 	        
 	        return excelReaderService.GetAllData();
 	    }
+		
+		
+		@PostMapping("/invoiceData")
+		public ResponseEntity<Object> createBenchCandidate(@RequestBody ExcelReader excelReader) throws CPException {
+		
+			try {
+				ExcelReader createdExcelReader = excelReaderService.insertExcelReader(excelReader);
+				if (createdExcelReader == null) {
+					logger.error(resourceBunde.getString("err007"));
+					return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resourceBunde.getString("err007"));
+				} else {
+				
+					return ResponseEntity.status(HttpStatus.CREATED).body(createdExcelReader);
+				}
+
+			} catch (Exception ex) {
+				
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex);
+			}
+		}
+		
+		
+		
 	  
 	
 	
