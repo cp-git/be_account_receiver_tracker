@@ -133,9 +133,40 @@ public class ExcelReaderController {
 			}
 		}
 		
+		@PutMapping("/update/{invoiceNo}")
+		public ResponseEntity<Object> updateInvoiceByInvoiceNo(@RequestBody ExcelReader excelReader,
+				@PathVariable("invoiceNo")String invoiceNo)throws CPException{
+			ExcelReader updateInvoice =null;
+			
+			try {
+				updateInvoice = excelReaderService.updateInvoiceDetailsByInvoiceNo(excelReader, invoiceNo);
+				if(updateInvoice ==null) {
+					return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err004");
+					
+				}else {
+					logger.info("Updated invoice: " + updateInvoice);
+					return ResponseHandler.generateResponse(updateInvoice, HttpStatus.CREATED);
+				}
+				
+			}catch(Exception e) {
+				throw new CPException("err004", "Error while updating invoice");
+			}
+			
+			
+		}
 		
-		
-	  
+		@PostMapping("/updatePaidDate")
+		public ResponseEntity<Boolean> updateInvoicesPaidDateAsTodaysDate(@RequestBody List<String> invoiceNumbers) {
+		    System.out.println("Updating invoices for numbers: " + invoiceNumbers);
+		    try {
+		        boolean result = excelReaderService.updateInvoicesPaidDateAsTodaysDate(invoiceNumbers);
+		        return ResponseEntity.ok(result);
+		    } catch (Exception e) {
+		        e.printStackTrace(); // Log the exception for debugging purposes
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+		    }
+		}
+
 	
 	
 }
