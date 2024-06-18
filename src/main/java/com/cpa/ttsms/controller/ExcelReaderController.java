@@ -166,6 +166,18 @@ public class ExcelReaderController {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
 		    }
 		}
+		
+		@PostMapping("/updateRecDate")
+		public ResponseEntity<Boolean> updateInvoicesRecoveryDateAsTodaysDate(@RequestBody List<String> invoiceNumbers) {
+		    System.out.println("Updating invoices for numbers: " + invoiceNumbers);
+		    try {
+		        boolean result = excelReaderService.updateRecoveryDateAsTodaysDate(invoiceNumbers);
+		        return ResponseEntity.ok(result);
+		    } catch (Exception e) {
+		        e.printStackTrace(); // Log the exception for debugging purposes
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+		    }
+		}
 
 	
 	

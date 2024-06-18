@@ -32,7 +32,7 @@ public interface ExcelReaderService {
 	  
 	  boolean updateInvoicesPaidDateAsTodaysDate(List<String> invoiceNumbers);
 
-
+boolean updateRecoveryDateAsTodaysDate(List<String> invoiceNumbers);
 	  
 	  //Inserting the data
 	  ExcelReader insertExcelReader(ExcelReader excelReader);
