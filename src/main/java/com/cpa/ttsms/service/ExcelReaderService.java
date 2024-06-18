@@ -28,6 +28,11 @@ public interface ExcelReaderService {
 	  
 	  public List<ExcelReader> GetAllData();
 	  
+	  boolean updateInvoicesPaidDateAsTodaysDate(List<String> invoiceNumbers);
+
+		boolean updateRecoveryDateAsTodaysDate(List<String> invoiceNumbers);
+
+		boolean updateSecondDateAsTodaysDate(List<String> invoiceNumbers);
 	  
 	  //Inserting the data
 	  ExcelReader insertExcelReader(ExcelReader excelReader);

@@ -255,4 +255,68 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		return excelReaderRepo.save(excelReader);
 	}
 
+	@Override
+	public boolean updateInvoicesPaidDateAsTodaysDate(List<String> invoiceNumbers) {
+		boolean allUpdated = true;
+		LocalDate today = LocalDate.now();
+		for (String invoiceNo : invoiceNumbers) {
+			try {
+				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
+				if (toUpdateDetails != null) {
+					toUpdateDetails.setPaidDate(today);
+//					toUpdateDetails.setRecdDate(today);
+					excelReaderRepo.save(toUpdateDetails);
+				} else {
+					allUpdated = false; // If any invoice number is not found, set the flag to false
+				}
+			} catch (Exception e) {
+				allUpdated = false; // If any exception occurs, set the flag to false
+			}
+		}
+		return allUpdated;
+	}
+
+	@Override
+	public boolean updateRecoveryDateAsTodaysDate(List<String> invoiceNumbers) {
+		boolean allUpdated = true;
+		LocalDate today = LocalDate.now();
+		for (String invoiceNo : invoiceNumbers) {
+			try {
+				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
+				if (toUpdateDetails != null) {
+//					toUpdateDetails.setPaidDate(today);
+					toUpdateDetails.setRecdDate(today);;
+					excelReaderRepo.save(toUpdateDetails);
+				} else {
+					allUpdated = false; // If any invoice number is not found, set the flag to false
+				}
+			} catch (Exception e) {
+				allUpdated = false; // If any exception occurs, set the flag to false
+			}
+		}
+		return allUpdated;
+	}
+
+	@Override
+	public boolean updateSecondDateAsTodaysDate(List<String> invoiceNumbers) {
+		boolean allUpdated = true;
+		System.out.println(invoiceNumbers + "************");
+		LocalDate today = LocalDate.now();
+		for (String invoiceNo : invoiceNumbers) {
+			try {
+				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
+				if (toUpdateDetails != null) {
+//					toUpdateDetails.setPaidDate(today);
+					toUpdateDetails.setSecondPaidDate(today);;
+					excelReaderRepo.save(toUpdateDetails);
+				} else {
+					allUpdated = false; // If any invoice number is not found, set the flag to false
+				}
+			} catch (Exception e) {
+				allUpdated = false; // If any exception occurs, set the flag to false
+			}
+		}
+		return allUpdated;
+	}
+
 }
