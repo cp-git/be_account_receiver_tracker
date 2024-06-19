@@ -36,4 +36,8 @@ public interface ExcelReaderService {
 	  
 	  //Inserting the data
 	  ExcelReader insertExcelReader(ExcelReader excelReader);
+	  
+	  List<ExcelReader> getExcelReaderByStatusId(int statusDays);
+	  
+		public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate , LocalDate endDate ,int Status);
 }

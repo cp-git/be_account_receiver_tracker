@@ -169,6 +169,28 @@ public class ExcelReaderController {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
 		    }
 		}
+		
+		@GetMapping("/invoiceProgress/{statusDays}")
+		public List<ExcelReader> invoiceProgressByStatusId(@PathVariable("statusDays") int statusDays) {
+			
+
+			
+				return excelReaderService.getExcelReaderByStatusId(statusDays);
+
+			
+
+		}
+		
+		@GetMapping("/filterDateRange")
+		public List<ExcelReader> getInvoicesByDateRangeAndStatus(
+		        @RequestParam("startDate") String startDate,
+		        @RequestParam("endDate") String endDate,
+		        @RequestParam("status") int status) {
+		    LocalDate start = LocalDate.parse(startDate);
+		    LocalDate end = LocalDate.parse(endDate);
+		    return excelReaderService.getInvoicesByRangeDatesOfInvoiceDateAndStatus(start, end, status);
+		}
+
 
 	  
 	

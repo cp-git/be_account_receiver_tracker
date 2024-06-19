@@ -43,7 +43,14 @@ public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
 	 
 	 
 	  List<ExcelReader> findAllByOrderByInvoiceAddedDateDesc();
+	  
+	  
+	  List<ExcelReader> findByStatusDays(int statusDays);
+	  
 		
-	
+	  List<ExcelReader> findAllByinvoiceDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
+	  List<ExcelReader> findAllByPaidDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
+	  List<ExcelReader> findAllBySecondPaidDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
+	  List<ExcelReader> findAllByRecdDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
 
 }
