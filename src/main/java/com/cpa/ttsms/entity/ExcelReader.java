@@ -7,6 +7,8 @@
 package com.cpa.ttsms.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -65,8 +67,8 @@ public class ExcelReader {
 	@Column(name = "credited_days")
 	private int creditDays;
 	
-	
-	
+	@Column(name="invoiceaddeddate")
+	private LocalDateTime invoiceAddedDate;
 
 	public int getId() {
 		return id;
@@ -140,14 +142,6 @@ public class ExcelReader {
 		this.paidDate = paidDate;
 	}
 
-//	public Integer getCreditDays() {
-//		return creditDays;
-//	}
-//
-//	public void setCreditDays(Integer creditDays) {
-//		this.creditDays = creditDays;
-//	}
-
 	public LocalDate getDueDate() {
 		return dueDate;
 	}
@@ -179,19 +173,6 @@ public class ExcelReader {
 	public void setSecondPaidDate(LocalDate secondPaidDate) {
 		this.secondPaidDate = secondPaidDate;
 	}
-	
-	
-	
-
-	
-	
-	
-
-
-	
-
-	
-	
 
 	public int getCreditDays() {
 		return creditDays;
@@ -201,11 +182,17 @@ public class ExcelReader {
 		this.creditDays = creditDays;
 	}
 
+	public LocalDateTime getInvoiceAddedDate() {
+		return invoiceAddedDate;
+	}
 
+	public void setInvoiceAddedDate(LocalDateTime invoiceAddedDate) {
+		this.invoiceAddedDate = invoiceAddedDate;
+	}
 
 	public ExcelReader(int id, String invoiceNo, LocalDate invoiceDate, Double invoiceAmt, Double financedAmount,
 			Double setup, Double interest, Double paidAmt, LocalDate paidDate, LocalDate dueDate, LocalDate recdDate,
-			Double balAmt, LocalDate secondPaidDate, int creditDays) {
+			Double balAmt, LocalDate secondPaidDate, int creditDays, LocalDateTime invoiceAddedDate) {
 		super();
 		this.id = id;
 		this.invoiceNo = invoiceNo;
@@ -221,6 +208,7 @@ public class ExcelReader {
 		this.balAmt = balAmt;
 		this.secondPaidDate = secondPaidDate;
 		this.creditDays = creditDays;
+		this.invoiceAddedDate = invoiceAddedDate;
 	}
 
 	public ExcelReader() {
@@ -233,15 +221,10 @@ public class ExcelReader {
 		return "ExcelReader [id=" + id + ", invoiceNo=" + invoiceNo + ", invoiceDate=" + invoiceDate + ", invoiceAmt="
 				+ invoiceAmt + ", financedAmount=" + financedAmount + ", setup=" + setup + ", interest=" + interest
 				+ ", paidAmt=" + paidAmt + ", paidDate=" + paidDate + ", dueDate=" + dueDate + ", recdDate=" + recdDate
-				+ ", balAmt=" + balAmt + ", secondPaidDate=" + secondPaidDate + ", creditDays=" + creditDays + "]";
+				+ ", balAmt=" + balAmt + ", secondPaidDate=" + secondPaidDate + ", creditDays=" + creditDays
+				+ ", invoiceAddedDate=" + invoiceAddedDate + "]";
 	}
 
 	
-	
-
-
-
-	
-
 	
 }

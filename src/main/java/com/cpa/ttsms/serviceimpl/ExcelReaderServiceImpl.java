@@ -187,7 +187,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	@Override
 	public List<ExcelReader> GetAllData() {
 		// TODO Auto-generated method stub
-		return excelReaderRepo.findAll();
+		return excelReaderRepo.findAllByOrderByInvoiceAddedDateDesc();
 	}
 
 	@Override
