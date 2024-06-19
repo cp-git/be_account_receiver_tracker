@@ -236,6 +236,8 @@ System.out.println(invoiceDetails + "******invoice details*****");
           excelReader.setInterest(IntrestRate);
           excelReader.setPaidAmt(paidAmount);
           excelReader.setBalAmt(balanceAmount);
+          
+          excelReader.setStatusDays(0);
          
           
 //          
@@ -264,6 +266,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
 				if (toUpdateDetails != null) {
 					toUpdateDetails.setPaidDate(today);
+					toUpdateDetails.setStatusDays(1);
 //					toUpdateDetails.setRecdDate(today);
 					excelReaderRepo.save(toUpdateDetails);
 				} else {
@@ -285,7 +288,8 @@ System.out.println(invoiceDetails + "******invoice details*****");
 				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
 				if (toUpdateDetails != null) {
 //					toUpdateDetails.setPaidDate(today);
-					toUpdateDetails.setRecdDate(today);;
+					toUpdateDetails.setRecdDate(today);
+					toUpdateDetails.setStatusDays(2);
 					excelReaderRepo.save(toUpdateDetails);
 				} else {
 					allUpdated = false; // If any invoice number is not found, set the flag to false
@@ -307,7 +311,8 @@ System.out.println(invoiceDetails + "******invoice details*****");
 				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
 				if (toUpdateDetails != null) {
 //					toUpdateDetails.setPaidDate(today);
-					toUpdateDetails.setSecondPaidDate(today);;
+					toUpdateDetails.setSecondPaidDate(today);
+					toUpdateDetails.setStatusDays(3);
 					excelReaderRepo.save(toUpdateDetails);
 				} else {
 					allUpdated = false; // If any invoice number is not found, set the flag to false
