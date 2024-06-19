@@ -180,6 +180,17 @@ public class ExcelReaderController {
 			
 
 		}
+		
+		@GetMapping("/filterDateRange")
+		public List<ExcelReader> getInvoicesByDateRangeAndStatus(
+		        @RequestParam("startDate") String startDate,
+		        @RequestParam("endDate") String endDate,
+		        @RequestParam("status") int status) {
+		    LocalDate start = LocalDate.parse(startDate);
+		    LocalDate end = LocalDate.parse(endDate);
+		    return excelReaderService.getInvoicesByRangeDatesOfInvoiceDateAndStatus(start, end, status);
+		}
+
 
 	  
 	
