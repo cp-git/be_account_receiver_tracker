@@ -324,4 +324,10 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		return allUpdated;
 	}
 
+	@Override
+	public List<ExcelReader> getExcelReaderByStatusId(int statusDays) {
+		// TODO Auto-generated method stub
+		return excelReaderRepo.findByStatusDays(statusDays);
+	}
+
 }

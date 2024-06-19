@@ -36,4 +36,6 @@ public interface ExcelReaderService {
 	  
 	  //Inserting the data
 	  ExcelReader insertExcelReader(ExcelReader excelReader);
+	  
+	  List<ExcelReader> getExcelReaderByStatusId(int statusDays);
 }

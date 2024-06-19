@@ -169,6 +169,17 @@ public class ExcelReaderController {
 		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
 		    }
 		}
+		
+		@GetMapping("/invoiceProgress/{statusDays}")
+		public List<ExcelReader> invoiceProgressByStatusId(@PathVariable("statusDays") int statusDays) {
+			
+
+			
+				return excelReaderService.getExcelReaderByStatusId(statusDays);
+
+			
+
+		}
 
 	  
 	

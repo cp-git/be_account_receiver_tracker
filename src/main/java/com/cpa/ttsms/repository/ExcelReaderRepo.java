@@ -43,6 +43,10 @@ public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
 	 
 	 
 	  List<ExcelReader> findAllByOrderByInvoiceAddedDateDesc();
+	  
+	  
+	  List<ExcelReader> findByStatusDays(int statusDays);
+	  
 		
 	
 
