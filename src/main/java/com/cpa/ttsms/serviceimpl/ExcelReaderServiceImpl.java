@@ -2,6 +2,7 @@ package com.cpa.ttsms.serviceimpl;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -199,7 +200,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		
 //		IntrestData instestData=intrestRepo.getSetupDataByID(excelReader.getSetupinstrest());
 //		System.out.println(instestData);
-		
+		 LocalDateTime today = LocalDateTime.now();
 //		
 
 		IntrestData instestData=intrestRepo.getSetupDataByID();
@@ -236,7 +237,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
           excelReader.setInterest(IntrestRate);
           excelReader.setPaidAmt(paidAmount);
           excelReader.setBalAmt(balanceAmount);
-          
+          excelReader.setInvoiceAddedDate(today);
           excelReader.setStatusDays(0);
          
           
@@ -328,6 +329,24 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	public List<ExcelReader> getExcelReaderByStatusId(int statusDays) {
 		// TODO Auto-generated method stub
 		return excelReaderRepo.findByStatusDays(statusDays);
+	}
+
+	@Override
+	public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate, LocalDate endDate,
+			int status) {
+		 List<ExcelReader> result;
+		    if(status == 0) {
+		        result = excelReaderRepo.findAllByinvoiceDateBetweenAndStatusDays(startDate, endDate, status);
+		    } else if(status == 1) {
+		        result = excelReaderRepo.findAllByPaidDateBetweenAndStatusDays(startDate, endDate, status);
+		    } else if(status == 2) {
+		        result = excelReaderRepo.findAllByRecdDateBetweenAndStatusDays(startDate, endDate, status);
+		    }else if(status ==3) {
+		    	 result = excelReaderRepo.findAllBySecondPaidDateBetweenAndStatusDays(startDate, endDate, status);
+		    } else {
+		        result = new ArrayList<>(); // Return an empty list or handle this case as needed
+		    }
+		    return result;
 	}
 
 }
