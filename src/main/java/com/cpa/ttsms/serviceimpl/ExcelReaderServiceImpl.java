@@ -31,104 +31,73 @@ public class ExcelReaderServiceImpl implements ExcelReaderService {
 
     @Autowired
     private ExcelReaderRepo excelReaderRepo;
-    private static Logger logger;
-    
-    
+
     @Autowired
     private IntrestRepo intrestRepo;
 
-    public ExcelReaderServiceImpl() {
-        logger = Logger.getLogger(ExcelReaderServiceImpl.class);
-    }
+    private static Logger logger = Logger.getLogger(ExcelReaderServiceImpl.class);
 
     @Override
     public void readExcelData(InputStream inputStream) {
-    	 List<ExcelReader> invoiceDetailsList = new ArrayList<>();
+        List<ExcelReader> invoiceDetailsList = new ArrayList<>();
 
-    	    try (Workbook workbook = WorkbookFactory.create(inputStream)) {
-    	        int numberOfSheets = workbook.getNumberOfSheets();
-    	        for (int i = 0; i < numberOfSheets; i++) {
-    	            Sheet sheet = workbook.getSheetAt(i);
-    	            Iterator<Row> rowIterator = sheet.iterator();
-    	            while (rowIterator.hasNext()) {
-    	                Row row = rowIterator.next();
-    	                if (row.getRowNum() == 0) continue; // Skip header row
+        try (Workbook workbook = WorkbookFactory.create(inputStream)) {
+            int numberOfSheets = workbook.getNumberOfSheets();
+            for (int i = 0; i < numberOfSheets; i++) {
+                Sheet sheet = workbook.getSheetAt(i);
+                Iterator<Row> rowIterator = sheet.iterator();
+                while (rowIterator.hasNext()) {
+                    Row row = rowIterator.next();
+                    if (row.getRowNum() == 0) continue; // Skip header row
 
-    	                ExcelReader invoiceDetails = new ExcelReader();
-    	               
-    	                // Set ID manually if needed
-    	                // invoiceDetails.setId(...);
-    	                System.out.println(invoiceDetails);
-    	                
-    	                
-    	                invoiceDetails.setInvoiceNo(getCellValueAsString(row.getCell(0)));
-    	                invoiceDetails.setInvoiceDate(convertToLocalDate(row.getCell(1)));
-    	                invoiceDetails.setInvoiceAmt(getCellValueAsDouble(row.getCell(2)));
-//    	                invoiceDetails.setFinancedAmount(getCellValueAsDouble(row.getCell(3)));
-//    	                invoiceDetails.setSetup(getCellValueAsDouble(row.getCell(4)));
-//    	                invoiceDetails.setInterest(getCellValueAsDouble(row.getCell(5)));
-//    	                invoiceDetails.setPaidAmt(getCellValueAsDouble(row.getCell(6)));
-//    	                invoiceDetails.setPaidDate(convertToLocalDate(row.getCell(7)));
- //   	                invoiceDetails.setCreditDays(getCellValueAsInteger(row.getCell(8)));
-//    	                invoiceDetails.setDueDate(convertToLocalDate(row.getCell(9)));
-//    	                invoiceDetails.setRecdDate(convertToLocalDate(row.getCell(10)));
-//    	                invoiceDetails.setBalAmt(getCellValueAsDouble(row.getCell(11)));
-//    	                invoiceDetails.setSecondPaidDate(convertToLocalDate(row.getCell(12)));
-    	                
-    	                
-    	                
+                    ExcelReader invoiceDetails = new ExcelReader();
 
-    	                // Validate mandatory fields
-    	                if (invoiceDetails.getInvoiceNo() == null || invoiceDetails.getInvoiceNo().isEmpty()) {
-    	                    throw new IllegalArgumentException("InvoiceNo cannot be null or empty");
-    	                }
-System.out.println(invoiceDetails + "******invoice details*****");
-    	                invoiceDetailsList.add(invoiceDetails);
-    	               //Calculate financeamount
-    	               Double finanaceAmount= invoiceDetails.getInvoiceAmt()*0.9;
-    	               System.out.println(finanaceAmount);
-    	               //Balance amount
-    	               Double balanceAmount=invoiceDetails.getInvoiceAmt()-finanaceAmount;
-    	               
-    	               //Setup
-    	               Double SetUpAmount=finanaceAmount * 0.005;
-    	               
-    	               //IntrestRate 
-    	               Double IntrestRate=finanaceAmount*0.025;
-    	               
-    	               //paid Amount
-    	               Double paidAmount=finanaceAmount-IntrestRate-SetUpAmount;
-    	               
-    	               invoiceDetails.setFinancedAmount(finanaceAmount);
-    	               invoiceDetails.setBalAmt(balanceAmount);
-    	               invoiceDetails.setSetup(SetUpAmount);
-    	               
-    	               LocalDate currentDate = invoiceDetails.getInvoiceDate();
-    	                
-    	             //  invoiceDetails.setDueDate(currentDate.plusDays(invoiceDetails.getCreditDays()));
-    	               invoiceDetails.setInterest(IntrestRate);
-    	               
-    	               invoiceDetails.setPaidAmt(paidAmount);
-    	               
-    	             
-    	               
-    	               
-    	               
-    	             
-    	               
-    	                
-    	            }
-    	        }
-    	    } catch (Exception e) {
-    	        logger.error("Error reading Excel file", e);
-    	    }
-    	    
-    	    System.out.println("The Invoice Details.."+invoiceDetailsList);
-    	    
-    	   
-    	    
+                    invoiceDetails.setInvoiceNo(getCellValueAsString(row.getCell(0)));
+                    invoiceDetails.setInvoiceDate(convertToLocalDate(row.getCell(1)));
+                    invoiceDetails.setInvoiceAmt(getCellValueAsDouble(row.getCell(2)));
+                    
+                    // Set additional fields as necessary
+                    // For example, setting the companyId from the Excel sheet if available
+                    invoiceDetails.setCompanyId(getCellValueAsLong(row.getCell(13))); // Assuming companyId is at cell index 13
 
-    	    excelReaderRepo.saveAll(invoiceDetailsList);
+                    // Validate mandatory fields
+                    if (invoiceDetails.getInvoiceNo() == null || invoiceDetails.getInvoiceNo().isEmpty()) {
+                        throw new IllegalArgumentException("InvoiceNo cannot be null or empty");
+                    }
+
+                    invoiceDetailsList.add(invoiceDetails);
+
+                    // Calculate finance amount
+                    Double financeAmount = invoiceDetails.getInvoiceAmt() * 0.9;
+
+                    // Balance amount
+                    Double balanceAmount = invoiceDetails.getInvoiceAmt() - financeAmount;
+
+                    // Setup
+                    Double setupAmount = financeAmount * 0.005;
+
+                    // Interest rate
+                    Double interestRate = financeAmount * 0.025;
+
+                    // Paid amount
+                    Double paidAmount = financeAmount - interestRate - setupAmount;
+
+                    invoiceDetails.setFinancedAmount(financeAmount);
+                    invoiceDetails.setBalAmt(balanceAmount);
+                    invoiceDetails.setSetup(setupAmount);
+                    invoiceDetails.setInterest(interestRate);
+                    invoiceDetails.setPaidAmt(paidAmount);
+
+                    LocalDate currentDate = invoiceDetails.getInvoiceDate();
+                    // Set due date if necessary
+                    // invoiceDetails.setDueDate(currentDate.plusDays(invoiceDetails.getCreditDays()));
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Error reading Excel file", e);
+        }
+
+        excelReaderRepo.saveAll(invoiceDetailsList);
     }
 
     private String getCellValueAsString(Cell cell) {
@@ -153,200 +122,145 @@ System.out.println(invoiceDetails + "******invoice details*****");
         return cell.getNumericCellValue();
     }
 
-    private Integer getCellValueAsInteger(Cell cell) {
+    private Long getCellValueAsLong(Cell cell) {
         if (cell == null || cell.getCellType() != CellType.NUMERIC) {
             return null;
         }
-        return (int) cell.getNumericCellValue();
+        return (long) cell.getNumericCellValue();
     }
 
-	@Override
-	public ExcelReader getDataByInvoiceId(String invoiceNo) {
-		// TODO Auto-generated method stub
-		
-	
-		ExcelReader excelreader=excelReaderRepo.getAllDataByInvoiceNumber(invoiceNo);
-		
-		
+    @Override
+    public ExcelReader getDataByInvoiceId(String invoiceNo) {
+        return excelReaderRepo.getAllDataByInvoiceNumber(invoiceNo);
+    }
 
-		return excelreader;
-	}
-	
+    @Override
     public List<ExcelReader> getExcelReadersByDateRange(LocalDate startDate, LocalDate endDate) {
-    	System.out.println("In Controller...");
-    	System.out.println(excelReaderRepo.findAllByinvoiceDateBetween(startDate, endDate));
         return excelReaderRepo.findAllByinvoiceDateBetween(startDate, endDate);
     }
 
-	@Override
-	public List<ExcelReader> getExcelReadersByDueDateRange(LocalDate startDate, LocalDate endDate) {
-		// TODO Auto-generated method stub
-		System.out.println(excelReaderRepo.findAllBydueDateBetween(startDate, endDate));
+    @Override
+    public List<ExcelReader> getExcelReadersByDueDateRange(LocalDate startDate, LocalDate endDate) {
         return excelReaderRepo.findAllBydueDateBetween(startDate, endDate);
-	}
+    }
 
-	@Override
-	public List<ExcelReader> GetAllData() {
-		// TODO Auto-generated method stub
-		return excelReaderRepo.findAllByOrderByInvoiceAddedDateDesc();
-	}
+    @Override
+    public List<ExcelReader> GetAllData() {
+        return excelReaderRepo.findAllByOrderByInvoiceAddedDateDesc();
+    }
 
-	@Override
-	public ExcelReader insertExcelReader(ExcelReader excelReader) {
-		// TODO Auto-generated method stub
-		
-		
-		
-		
-//		IntrestData instestData=intrestRepo.getSetupDataByID(excelReader.getSetupinstrest());
-//		System.out.println(instestData);
-		 LocalDateTime today = LocalDateTime.now();
-//		
+    @Override
+    public ExcelReader insertExcelReader(ExcelReader excelReader) {
+        LocalDateTime today = LocalDateTime.now();
 
-		IntrestData instestData=intrestRepo.getSetupDataByID();
-         System.out.println(instestData);
-		
-		//INTREST_RATE 
-		Double finance_rate=instestData.getFinance_percent();
-//		
-//		
-//		//SETUP_PERCENTAGE
-		double setuprate_percent=instestData.getSetup_percent();
-//		
-//		//Instrest rate
-//		
-    	double instrestrate_percent=instestData.getInstrest_rate();
-//		
-//		
-		  Double finanaceAmount= excelReader.getInvoiceAmt()* finance_rate / 100;
-          System.out.println(finanaceAmount);
-//          //Balance amount
-          Double balanceAmount=excelReader.getInvoiceAmt()-finanaceAmount;
-//          
-//          //Setup
-          Double SetUpAmount=finanaceAmount * setuprate_percent /100;
-//          
-//          //IntrestRate 
-          Double IntrestRate=finanaceAmount*instrestrate_percent/100;
-//          
-//          //paid Amount
-          Double paidAmount=finanaceAmount-IntrestRate-SetUpAmount;
-//          
-          excelReader.setFinancedAmount(finanaceAmount);
-          excelReader.setSetup(SetUpAmount);
-          excelReader.setInterest(IntrestRate);
-          excelReader.setPaidAmt(paidAmount);
-          excelReader.setBalAmt(balanceAmount);
-          excelReader.setInvoiceAddedDate(today);
-          excelReader.setStatusDays(0);
-         
-          
-//          
-//          
-//          
-//          
-//          
-          LocalDate currentDate = excelReader.getInvoiceDate();
-           
-          excelReader.setDueDate(currentDate.plusDays(instestData.getCredited_days()));
-          
-          excelReader.setCreditDays(instestData.getCredited_days());
-          
-         
-		
-	
-		return excelReaderRepo.save(excelReader);
-	}
+        IntrestData interestData = intrestRepo.getSetupDataByID();
+        double financeRate = interestData.getFinance_percent();
+        double setupRatePercent = interestData.getSetup_percent();
+        double interestRatePercent = interestData.getInstrest_rate();
 
-	@Override
-	public boolean updateInvoicesPaidDateAsTodaysDate(List<String> invoiceNumbers) {
-		boolean allUpdated = true;
-		LocalDate today = LocalDate.now();
-		for (String invoiceNo : invoiceNumbers) {
-			try {
-				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
-				if (toUpdateDetails != null) {
-					toUpdateDetails.setPaidDate(today);
-					toUpdateDetails.setStatusDays(1);
-//					toUpdateDetails.setRecdDate(today);
-					excelReaderRepo.save(toUpdateDetails);
-				} else {
-					allUpdated = false; // If any invoice number is not found, set the flag to false
-				}
-			} catch (Exception e) {
-				allUpdated = false; // If any exception occurs, set the flag to false
-			}
-		}
-		return allUpdated;
-	}
+        Double financeAmount = excelReader.getInvoiceAmt() * financeRate / 100;
+        Double balanceAmount = excelReader.getInvoiceAmt() - financeAmount;
+        Double setupAmount = financeAmount * setupRatePercent / 100;
+        Double interestRate = financeAmount * interestRatePercent / 100;
+        Double paidAmount = financeAmount - interestRate - setupAmount;
 
-	@Override
-	public boolean updateRecoveryDateAsTodaysDate(List<String> invoiceNumbers) {
-		boolean allUpdated = true;
-		LocalDate today = LocalDate.now();
-		for (String invoiceNo : invoiceNumbers) {
-			try {
-				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
-				if (toUpdateDetails != null) {
-//					toUpdateDetails.setPaidDate(today);
-					toUpdateDetails.setRecdDate(today);
-					toUpdateDetails.setStatusDays(2);
-					excelReaderRepo.save(toUpdateDetails);
-				} else {
-					allUpdated = false; // If any invoice number is not found, set the flag to false
-				}
-			} catch (Exception e) {
-				allUpdated = false; // If any exception occurs, set the flag to false
-			}
-		}
-		return allUpdated;
-	}
+        excelReader.setFinancedAmount(financeAmount);
+        excelReader.setSetup(setupAmount);
+        excelReader.setInterest(interestRate);
+        excelReader.setPaidAmt(paidAmount);
+        excelReader.setBalAmt(balanceAmount);
+        excelReader.setInvoiceAddedDate(today);
+        excelReader.setStatusDays(0);
 
-	@Override
-	public boolean updateSecondDateAsTodaysDate(List<String> invoiceNumbers) {
-		boolean allUpdated = true;
-		System.out.println(invoiceNumbers + "************");
-		LocalDate today = LocalDate.now();
-		for (String invoiceNo : invoiceNumbers) {
-			try {
-				ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
-				if (toUpdateDetails != null) {
-//					toUpdateDetails.setPaidDate(today);
-					toUpdateDetails.setSecondPaidDate(today);
-					toUpdateDetails.setStatusDays(3);
-					excelReaderRepo.save(toUpdateDetails);
-				} else {
-					allUpdated = false; // If any invoice number is not found, set the flag to false
-				}
-			} catch (Exception e) {
-				allUpdated = false; // If any exception occurs, set the flag to false
-			}
-		}
-		return allUpdated;
-	}
+        LocalDate currentDate = excelReader.getInvoiceDate();
+        excelReader.setDueDate(currentDate.plusDays(interestData.getCredited_days()));
+        excelReader.setCreditDays(interestData.getCredited_days());
 
-	@Override
-	public List<ExcelReader> getExcelReaderByStatusId(int statusDays) {
-		// TODO Auto-generated method stub
-		return excelReaderRepo.findByStatusDays(statusDays);
-	}
+        return excelReaderRepo.save(excelReader);
+    }
 
-	@Override
-	public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate, LocalDate endDate,
-			int status) {
-		 List<ExcelReader> result;
-		    if(status == 0) {
-		        result = excelReaderRepo.findAllByinvoiceDateBetweenAndStatusDays(startDate, endDate, status);
-		    } else if(status == 1) {
-		        result = excelReaderRepo.findAllByPaidDateBetweenAndStatusDays(startDate, endDate, status);
-		    } else if(status == 2) {
-		        result = excelReaderRepo.findAllByRecdDateBetweenAndStatusDays(startDate, endDate, status);
-		    }else if(status ==3) {
-		    	 result = excelReaderRepo.findAllBySecondPaidDateBetweenAndStatusDays(startDate, endDate, status);
-		    } else {
-		        result = new ArrayList<>(); // Return an empty list or handle this case as needed
-		    }
-		    return result;
-	}
+    @Override
+    public boolean updateInvoicesPaidDateAsTodaysDate(List<String> invoiceNumbers) {
+        boolean allUpdated = true;
+        LocalDate today = LocalDate.now();
+        for (String invoiceNo : invoiceNumbers) {
+            try {
+                ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
+                if (toUpdateDetails != null) {
+                    toUpdateDetails.setPaidDate(today);
+                    toUpdateDetails.setStatusDays(1);
+                    excelReaderRepo.save(toUpdateDetails);
+                } else {
+                    allUpdated = false;
+                }
+            } catch (Exception e) {
+                allUpdated = false;
+            }
+        }
+        return allUpdated;
+    }
 
+    @Override
+    public boolean updateRecoveryDateAsTodaysDate(List<String> invoiceNumbers) {
+        boolean allUpdated = true;
+        LocalDate today = LocalDate.now();
+        for (String invoiceNo : invoiceNumbers) {
+            try {
+                ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
+                if (toUpdateDetails != null) {
+                    toUpdateDetails.setRecdDate(today);
+                    toUpdateDetails.setStatusDays(2);
+                    excelReaderRepo.save(toUpdateDetails);
+                } else {
+                    allUpdated = false;
+                }
+            } catch (Exception e) {
+                allUpdated = false;
+            }
+        }
+        return allUpdated;
+    }
+
+    @Override
+    public boolean updateSecondDateAsTodaysDate(List<String> invoiceNumbers) {
+        boolean allUpdated = true;
+        LocalDate today = LocalDate.now();
+        for (String invoiceNo : invoiceNumbers) {
+            try {
+                ExcelReader toUpdateDetails = excelReaderRepo.findByInvoiceNo(invoiceNo);
+                if (toUpdateDetails != null) {
+                    toUpdateDetails.setSecondPaidDate(today);
+                    toUpdateDetails.setStatusDays(3);
+                    excelReaderRepo.save(toUpdateDetails);
+                } else {
+                    allUpdated = false;
+                }
+            } catch (Exception e) {
+                allUpdated = false;
+            }
+        }
+        return allUpdated;
+    }
+
+    @Override
+    public List<ExcelReader> getExcelReaderByStatusId(int statusDays) {
+        return excelReaderRepo.findByStatusDays(statusDays);
+    }
+
+    @Override
+    public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate, LocalDate endDate, int status) {
+        List<ExcelReader> result;
+        if (status == 0) {
+            result = excelReaderRepo.findAllByinvoiceDateBetweenAndStatusDays(startDate, endDate, status);
+        } else if (status == 1) {
+            result = excelReaderRepo.findAllByPaidDateBetweenAndStatusDays(startDate, endDate, status);
+        } else if (status == 2) {
+            result = excelReaderRepo.findAllByRecdDateBetweenAndStatusDays(startDate, endDate, status);
+        } else if (status == 3) {
+            result = excelReaderRepo.findAllBySecondPaidDateBetweenAndStatusDays(startDate, endDate, status);
+        } else {
+            result = new ArrayList<>(); // Return an empty list or handle this case as needed
+        }
+        return result;
+    }
 }

@@ -21,25 +21,25 @@ public class CompanyMembers {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 int memberId;
 
-@Column
-private String member_name;
+@Column(name="member_name")
+private String memberName;
 
 
-@Column
-private String member_email;
+@Column(name="member_email")
+private String memberEmail;
 
 
-@Column
-private String member_contact;
+@Column(name="member_contact")
+private String memberContact;
 
 @ManyToOne(fetch = FetchType.LAZY) // Adjust fetch type as needed
 @JoinColumn(name = "company_id", nullable = false) // name should match column name in DB
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 private Company company;
-@Column
- private boolean active;
 
+@Column(name="active")
+ private boolean active;
 
 /**
  * @return the memberId
@@ -56,50 +56,46 @@ public void setMemberId(int memberId) {
 }
 
 /**
- * @return the member_name
+ * @return the memberName
  */
-public String getMember_name() {
-	return member_name;
+public String getMemberName() {
+	return memberName;
 }
 
 /**
- * @param member_name the member_name to set
+ * @param memberName the memberName to set
  */
-public void setMember_name(String member_name) {
-	this.member_name = member_name;
+public void setMemberName(String memberName) {
+	this.memberName = memberName;
 }
 
 /**
- * @return the member_email
+ * @return the memberEmail
  */
-public String getMember_email() {
-	return member_email;
+public String getMemberEmail() {
+	return memberEmail;
 }
 
 /**
- * @param member_email the member_email to set
+ * @param memberEmail the memberEmail to set
  */
-public void setMember_email(String member_email) {
-	this.member_email = member_email;
+public void setMemberEmail(String memberEmail) {
+	this.memberEmail = memberEmail;
 }
 
 /**
- * @return the member_contact
+ * @return the memberContact
  */
-public String getMember_contact() {
-	return member_contact;
+public String getMemberContact() {
+	return memberContact;
 }
 
 /**
- * @param member_contact the member_contact to set
+ * @param memberContact the memberContact to set
  */
-public void setMember_contact(String member_contact) {
-	this.member_contact = member_contact;
+public void setMemberContact(String memberContact) {
+	this.memberContact = memberContact;
 }
-
-
-
-
 
 /**
  * @return the company
@@ -129,16 +125,24 @@ public void setActive(boolean active) {
 	this.active = active;
 }
 
-
 /**
  * @param memberId
- * @param member_name
- * @param member_email
- * @param member_contact
- * @param company_id
+ * @param memberName
+ * @param memberEmail
+ * @param memberContact
+ * @param company
  * @param active
  */
-
+public CompanyMembers(int memberId, String memberName, String memberEmail, String memberContact, Company company,
+		boolean active) {
+	super();
+	this.memberId = memberId;
+	this.memberName = memberName;
+	this.memberEmail = memberEmail;
+	this.memberContact = memberContact;
+	this.company = company;
+	this.active = active;
+}
 
 /**
  * 
@@ -147,29 +151,9 @@ public CompanyMembers() {
 	super();
 }
 
-/**
- * @param memberId
- * @param member_name
- * @param member_email
- * @param member_contact
- * @param company
- * @param active
- */
-public CompanyMembers(int memberId, String member_name, String member_email, String member_contact, Company company,
-		boolean active) {
-	super();
-	this.memberId = memberId;
-	this.member_name = member_name;
-	this.member_email = member_email;
-	this.member_contact = member_contact;
-	this.company = company;
-	this.active = active;
-}
-
 @Override
 public String toString() {
-	return "CompanyMembers [memberId=" + memberId + ", member_name=" + member_name + ", member_email="
-			+ member_email + ", member_contact=" + member_contact + ", company_id=" + company + ", active="
-			+ active + "]";
+	return "CompanyMembers []";
 }
+
 }

@@ -28,10 +28,10 @@ public class CompanyService {
 
     public Company updateCompany(long companyId, Company companyDetails) {
         Company company = companyRepository.findById(companyId).orElseThrow(() -> new RuntimeException("Company not found"));
-        company.setCompany_name(companyDetails.getCompany_name());
-        company.setCompany_address(companyDetails.getCompany_address());
-        company.setCompany_ceo(companyDetails.getCompany_ceo());
-        company.setCompany_contact(companyDetails.getCompany_contact());
+        company.setCompanyName(companyDetails.getCompanyName());
+        company.setCompanyAddress(companyDetails.getCompanyAddress());
+        company.setCompanyPerson(companyDetails.getCompanyPerson());
+        company.setCompanyContact(companyDetails.getCompanyContact());
         company.setActive(companyDetails.isActive());
         return companyRepository.save(company);
     }

@@ -17,137 +17,139 @@ public class Company {
 
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name="company_id")
 private long companyId;
 
-@Column
-private String company_name;
+@Column(name="company_name")
+private String companyName;
 
-@Column
-private String company_address;
+@Column(name="company_address")
+private String companyAddress;
 
-@Column
-private String company_person;
+@Column(name="company_person")
+private String companyPerson;
 
-@Column
-private String company_contact;
+@Column(name="company_contact")
+private String companyContact;
 
-@Column
+@Column(name="active")
 private boolean active;
 
 /**
-
-@return the active
-*/
-public boolean isActive() {
-return active;
-}
-/**
-
-@param active the active to set
-*/
-public void setActive(boolean active) {
-this.active = active;
-}
-/**
-
-@return the companyId
-*/
+ * @return the companyId
+ */
 public long getCompanyId() {
-return companyId;
+	return companyId;
 }
-/**
 
-@param companyId the companyId to set
-*/
+/**
+ * @param companyId the companyId to set
+ */
 public void setCompanyId(long companyId) {
-this.companyId = companyId;
+	this.companyId = companyId;
 }
-/**
 
-@return the company_name
-*/
-public String getCompany_name() {
-return company_name;
-}
 /**
+ * @return the companyName
+ */
+public String getCompanyName() {
+	return companyName;
+}
 
-@param company_name the company_name to set
-*/
-public void setCompany_name(String company_name) {
-this.company_name = company_name;
-}
 /**
+ * @param companyName the companyName to set
+ */
+public void setCompanyName(String companyName) {
+	this.companyName = companyName;
+}
 
-@return the company_address
-*/
-public String getCompany_address() {
-return company_address;
-}
 /**
+ * @return the companyAddress
+ */
+public String getCompanyAddress() {
+	return companyAddress;
+}
 
-@param company_address the company_address to set
-*/
-public void setCompany_address(String company_address) {
-this.company_address = company_address;
-}
 /**
+ * @param companyAddress the companyAddress to set
+ */
+public void setCompanyAddress(String companyAddress) {
+	this.companyAddress = companyAddress;
+}
 
-@return the company_ceo
-*/
-public String getCompany_ceo() {
-return company_person;
-}
 /**
+ * @return the companyPerson
+ */
+public String getCompanyPerson() {
+	return companyPerson;
+}
 
-@param company_ceo the company_ceo to set
-*/
-public void setCompany_ceo(String company_person) {
-this.company_person = company_person;
-}
 /**
+ * @param companyPerson the companyPerson to set
+ */
+public void setCompanyPerson(String companyPerson) {
+	this.companyPerson = companyPerson;
+}
 
-@return the company_contact
-*/
-public String getCompany_contact() {
-return company_contact;
-}
 /**
+ * @return the companyContact
+ */
+public String getCompanyContact() {
+	return companyContact;
+}
 
-@param company_contact the company_contact to set
-*/
-public void setCompany_contact(String company_contact) {
-this.company_contact = company_contact;
-}
 /**
+ * @param companyContact the companyContact to set
+ */
+public void setCompanyContact(String companyContact) {
+	this.companyContact = companyContact;
+}
 
-@param companyId
-@param company_name
-@param company_address
-@param company_ceo
-@param company_contact
-@param active
-*/
-public Company(long companyId, String company_name, String company_address, String company_person, String company_contact,
-boolean active) {
-super();
-this.companyId = companyId;
-this.company_name = company_name;
-this.company_address = company_address;
-this.company_person = company_person;
-this.company_contact = company_contact;
-this.active = active;
-}
 /**
-*
-*/
+ * @return the active
+ */
+public boolean isActive() {
+	return active;
+}
+
+/**
+ * @param active the active to set
+ */
+public void setActive(boolean active) {
+	this.active = active;
+}
+
+/**
+ * @param companyId
+ * @param companyName
+ * @param companyAddress
+ * @param companyPerson
+ * @param companyContact
+ * @param active
+ */
+public Company(long companyId, String companyName, String companyAddress, String companyPerson, String companyContact,
+		boolean active) {
+	super();
+	this.companyId = companyId;
+	this.companyName = companyName;
+	this.companyAddress = companyAddress;
+	this.companyPerson = companyPerson;
+	this.companyContact = companyContact;
+	this.active = active;
+}
+
+/**
+ * 
+ */
 public Company() {
-super();
+	super();
 }
 
 @Override
 public String toString() {
-return "Company [companyId=" + companyId + ", company_name=" + company_name + ", company_address=" + company_address
-+ ", company_ceo=" + company_person + ", company_contact=" + company_contact + ", active=" + active + "]";
+	return "Company [companyId=" + companyId + ", companyName=" + companyName + ", companyAddress=" + companyAddress
+			+ ", companyPerson=" + companyPerson + ", companyContact=" + companyContact + ", active=" + active + "]";
 }
+
 
 }
