@@ -349,4 +349,30 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		    return result;
 	}
 
+	@Override
+	public ExcelReader updateInvoiceByInvoiceNo(ExcelReader excelReader, String invoiceNo) {
+		// TODO Auto-generated method stub
+		ExcelReader toUpdateInvoice = null ;
+		ExcelReader updatedInvoice = null;
+		toUpdateInvoice = excelReaderRepo.findByInvoiceNo(invoiceNo);
+		if(toUpdateInvoice != null) {
+			toUpdateInvoice.setInvoiceNo(excelReader.getInvoiceNo());
+			toUpdateInvoice.setInvoiceDate(excelReader.getInvoiceDate());
+			toUpdateInvoice.setFinancedAmount(excelReader.getFinancedAmount());
+			toUpdateInvoice.setSetup(excelReader.getSetup());
+			toUpdateInvoice.setInterest(excelReader.getInterest());
+			toUpdateInvoice.setPaidAmt(excelReader.getPaidAmt());
+			toUpdateInvoice.setPaidDate(excelReader.getPaidDate());
+			toUpdateInvoice.setCreditDays(excelReader.getCreditDays());
+			toUpdateInvoice.setDueDate(excelReader.getDueDate());
+			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
+			toUpdateInvoice.setBalAmt(excelReader.getBalAmt());
+			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
+			
+			updatedInvoice = excelReaderRepo.save(toUpdateInvoice);
+			
+		}
+		return updatedInvoice;
+	}
+
 }
