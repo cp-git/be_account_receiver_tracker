@@ -172,13 +172,7 @@ public class ExcelReaderController {
 		
 		@GetMapping("/invoiceProgress/{statusDays}")
 		public List<ExcelReader> invoiceProgressByStatusId(@PathVariable("statusDays") int statusDays) {
-			
-
-			
 				return excelReaderService.getExcelReaderByStatusId(statusDays);
-
-			
-
 		}
 		
 		@GetMapping("/filterDateRange")
@@ -190,9 +184,23 @@ public class ExcelReaderController {
 		    LocalDate end = LocalDate.parse(endDate);
 		    return excelReaderService.getInvoicesByRangeDatesOfInvoiceDateAndStatus(start, end, status);
 		}
+		
+		@PutMapping("/updateInvoice/{invoiceNo}")
+	    public ResponseEntity<Object> updateInvoiceByInvoiceNo(@RequestBody ExcelReader excelReader, @PathVariable("invoiceNo") String invoiceNo) {
+	        ExcelReader updateInvoice = null;
+	        try {
+	            updateInvoice = excelReaderService.updateInvoiceByInvoiceNo(excelReader, invoiceNo);
 
-
-	  
-	
-	
+	            if (updateInvoice == null) {
+	                // If update is unsuccessful, generate an error response.
+	                return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err004");
+	            } else {
+	                return ResponseHandler.generateResponse(updateInvoice, HttpStatus.CREATED);
+	            }
+	        } catch (Exception ex) {
+	            // Log and throw a custom exception for error response.
+	            logger.error("Failed to update Invoice: " + ex.getMessage());
+	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
+	        }
+	    }
 }
