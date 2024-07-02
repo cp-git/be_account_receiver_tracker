@@ -206,4 +206,24 @@ public class ExcelReaderController {
 	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
 	        }
 	    }
+		
+		@PutMapping("/updateInvoiceById/{id}")
+	    public ResponseEntity<Object> updateInvoiceById(@RequestBody ExcelReader excelReader, @PathVariable("id") int id) {
+	        ExcelReader updateInvoice = null;
+	        try {
+	        	System.out.println("In Controller...");
+	            updateInvoice = excelReaderService.updateInvoiceById(excelReader, id);
+
+	            if (updateInvoice == null) {
+	                // If update is unsuccessful, generate an error response.
+	                return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err004");
+	            } else {
+	                return ResponseHandler.generateResponse(updateInvoice, HttpStatus.CREATED);
+	            }
+	        } catch (Exception ex) {
+	            // Log and throw a custom exception for error response.
+	            logger.error("Failed to update Invoice: " + ex.getMessage());
+	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
+	        }
+	    }
 }

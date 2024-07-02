@@ -201,23 +201,14 @@ System.out.println(invoiceDetails + "******invoice details*****");
 //		IntrestData instestData=intrestRepo.getSetupDataByID(excelReader.getSetupinstrest());
 //		System.out.println(instestData);
 		 LocalDateTime today = LocalDateTime.now();
-//		
-
 		IntrestData instestData=intrestRepo.getSetupDataByID();
          System.out.println(instestData);
-		
 		//INTREST_RATE 
 		Double finance_rate=instestData.getFinance_percent();
-//		
-//		
 //		//SETUP_PERCENTAGE
 		double setuprate_percent=instestData.getSetup_percent();
-//		
-//		//Instrest rate
-//		
+
     	double instrestrate_percent=instestData.getInstrest_rate();
-//		
-//		
 		  Double finanaceAmount= excelReader.getInvoiceAmt()* finance_rate / 100;
           System.out.println(finanaceAmount);
 //          //Balance amount
@@ -230,8 +221,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
           Double IntrestRate=finanaceAmount*instrestrate_percent/100;
 //          
 //          //paid Amount
-          Double paidAmount=finanaceAmount-IntrestRate-SetUpAmount;
-//          
+          Double paidAmount=finanaceAmount-IntrestRate-SetUpAmount;      
           excelReader.setFinancedAmount(finanaceAmount);
           excelReader.setSetup(SetUpAmount);
           excelReader.setInterest(IntrestRate);
@@ -241,11 +231,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
           excelReader.setStatusDays(0);
          
           
-//          
-//          
-//          
-//          
-//          
+       
           LocalDate currentDate = excelReader.getInvoiceDate();
            
           excelReader.setDueDate(currentDate.plusDays(instestData.getCredited_days()));
@@ -367,6 +353,98 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			toUpdateInvoice.setDueDate(excelReader.getDueDate());
 			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
 			toUpdateInvoice.setBalAmt(excelReader.getBalAmt());
+			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
+			toUpdateInvoice.setStatusDays(1);
+			
+			
+			 if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()!=null ) {
+				toUpdateInvoice.setStatusDays(2);	
+			}
+			 if(excelReader.getSecondPaidDate()!=null && excelReader.getPaidDate()!=null) {
+				toUpdateInvoice.setStatusDays(3);		
+			}
+			
+			
+			updatedInvoice = excelReaderRepo.save(toUpdateInvoice);
+			
+		}
+		return updatedInvoice;
+	}
+
+//	@Override
+//	public ExcelReader updateInvoiceById(ExcelReader excelReader, int id) {
+//		ExcelReader toUpdateInvoice = null ;
+//		ExcelReader updatedInvoice = null;
+//		toUpdateInvoice = excelReaderRepo.findById(id);
+//		if(toUpdateInvoice != null) {
+//			toUpdateInvoice.setInvoiceNo(excelReader.getInvoiceNo());
+//			toUpdateInvoice.setInvoiceDate(excelReader.getInvoiceDate());
+//			toUpdateInvoice.setInvoiceAmt(excelReader.getInvoiceAmt());
+//			toUpdateInvoice.setFinancedAmount(excelReader.getFinancedAmount());
+//			toUpdateInvoice.setSetup(excelReader.getSetup());
+//			toUpdateInvoice.setInterest(excelReader.getInterest());
+//			toUpdateInvoice.setPaidAmt(excelReader.getPaidAmt());
+//			toUpdateInvoice.setPaidDate(excelReader.getPaidDate());
+//			toUpdateInvoice.setCreditDays(excelReader.getCreditDays());
+//			toUpdateInvoice.setDueDate(excelReader.getDueDate());
+//			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
+//			toUpdateInvoice.setBalAmt(excelReader.getBalAmt());
+//			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
+//			toUpdateInvoice.setStatusDays(1);
+//			
+//			
+//			 if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()!=null ) {
+//				toUpdateInvoice.setStatusDays(2);	
+//			}
+//			 if(excelReader.getSecondPaidDate()!=null && excelReader.getPaidDate()!=null) {
+//				toUpdateInvoice.setStatusDays(3);		
+//			}
+//			
+//			
+//			updatedInvoice = excelReaderRepo.save(toUpdateInvoice);
+//			
+//		}
+//		return updatedInvoice;
+//	}
+	
+	@Override
+	public ExcelReader updateInvoiceById(ExcelReader excelReader, int id) {
+		ExcelReader toUpdateInvoice = null ;
+		ExcelReader updatedInvoice = null;
+		toUpdateInvoice = excelReaderRepo.findById(id);
+		if(toUpdateInvoice != null) {
+			 LocalDateTime today = LocalDateTime.now();
+			IntrestData instestData=intrestRepo.getSetupDataByID();
+			Double finance_rate=instestData.getFinance_percent();
+			double setuprate_percent=instestData.getSetup_percent();
+	    	double instrestrate_percent=instestData.getInstrest_rate();
+			  Double finanaceAmount= excelReader.getInvoiceAmt()* finance_rate / 100;
+	          Double balanceAmount=excelReader.getInvoiceAmt()-finanaceAmount;
+	          Double SetUpAmount=finanaceAmount * setuprate_percent /100;
+	          Double IntrestRate=finanaceAmount*instrestrate_percent/100;
+	          Double paidAmount=finanaceAmount-IntrestRate-SetUpAmount;      
+	
+	          
+	       
+	          LocalDate currentDate = excelReader.getInvoiceDate();
+	           
+	          excelReader.setDueDate(currentDate.plusDays(instestData.getCredited_days()));
+	          
+	          excelReader.setCreditDays(instestData.getCredited_days());
+	          
+	         
+			toUpdateInvoice.setInvoiceNo(excelReader.getInvoiceNo());
+			toUpdateInvoice.setInvoiceDate(excelReader.getInvoiceDate());
+			toUpdateInvoice.setInvoiceAmt(excelReader.getInvoiceAmt());
+			toUpdateInvoice.setFinancedAmount(finanaceAmount);
+			toUpdateInvoice.setSetup(SetUpAmount);
+			toUpdateInvoice.setInterest(IntrestRate);
+			toUpdateInvoice.setPaidAmt(paidAmount);
+			toUpdateInvoice.setPaidDate(excelReader.getPaidDate());
+			toUpdateInvoice.setCreditDays(excelReader.getCreditDays());
+			toUpdateInvoice.setDueDate(excelReader.getDueDate());
+			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
+			toUpdateInvoice.setBalAmt(balanceAmount);
 			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
 			toUpdateInvoice.setStatusDays(1);
 			

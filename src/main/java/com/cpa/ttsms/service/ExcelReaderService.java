@@ -41,4 +41,6 @@ public interface ExcelReaderService {
 	  
 		public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate , LocalDate endDate ,int Status);
 	public ExcelReader updateInvoiceByInvoiceNo(ExcelReader excelReader , String invoiceNo);
+	
+	public ExcelReader updateInvoiceById(ExcelReader excelReader , int id);
 }

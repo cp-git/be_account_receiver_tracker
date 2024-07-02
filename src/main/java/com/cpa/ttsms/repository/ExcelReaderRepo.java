@@ -39,6 +39,8 @@ public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
 	 
 	 ExcelReader findByInvoiceNo(String inovoiceNo);
 	 
+	 ExcelReader findById(int id);
+	 
 	 List<ExcelReader> findAllBydueDateBetween(LocalDate startDate, LocalDate endDate);
 	 
 	 
