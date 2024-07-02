@@ -368,6 +368,16 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
 			toUpdateInvoice.setBalAmt(excelReader.getBalAmt());
 			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
+			toUpdateInvoice.setStatusDays(1);
+			
+			
+			 if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()!=null ) {
+				toUpdateInvoice.setStatusDays(2);	
+			}
+			 if(excelReader.getSecondPaidDate()!=null && excelReader.getPaidDate()!=null) {
+				toUpdateInvoice.setStatusDays(3);		
+			}
+			
 			
 			updatedInvoice = excelReaderRepo.save(toUpdateInvoice);
 			

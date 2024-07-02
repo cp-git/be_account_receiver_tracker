@@ -137,7 +137,9 @@ public class ExcelReaderController {
 		@PostMapping("/updatePaidDate")
 		public ResponseEntity<Boolean> updateInvoicesPaidDateAsTodaysDate(@RequestBody List<String> invoiceNumbers) {
 		    System.out.println("Updating invoices for numbers: " + invoiceNumbers);
+		    System.out.println("in Controller..");
 		    try {
+		    	
 		        boolean result = excelReaderService.updateInvoicesPaidDateAsTodaysDate(invoiceNumbers);
 		        return ResponseEntity.ok(result);
 		    } catch (Exception e) {
@@ -189,6 +191,7 @@ public class ExcelReaderController {
 	    public ResponseEntity<Object> updateInvoiceByInvoiceNo(@RequestBody ExcelReader excelReader, @PathVariable("invoiceNo") String invoiceNo) {
 	        ExcelReader updateInvoice = null;
 	        try {
+	        	System.out.println("In Controller...");
 	            updateInvoice = excelReaderService.updateInvoiceByInvoiceNo(excelReader, invoiceNo);
 
 	            if (updateInvoice == null) {
