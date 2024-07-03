@@ -10,5 +10,7 @@ public interface IntrestRepo  extends JpaRepository<IntrestData, Integer>  {
 	
 	@Query(value = "select * from intrest_data", nativeQuery = true)
 	public IntrestData getSetupDataByID();
+	
+	public IntrestData getIntrestDataById(int id);
 
 }
