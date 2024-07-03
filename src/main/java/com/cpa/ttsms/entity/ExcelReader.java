@@ -45,7 +45,7 @@ public class ExcelReader {
 	@Column(name = "PaidAmt")
 	private Double paidAmt;
 
-	@Column(name = "PaidDate")
+	@Column(name = "PaidDate", nullable=true)
 	private LocalDate paidDate;
 
 //	@Column(name = "CreditDays")

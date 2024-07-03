@@ -355,33 +355,61 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		ExcelReader toUpdateInvoice = null ;
 		ExcelReader updatedInvoice = null;
 		toUpdateInvoice = excelReaderRepo.findByInvoiceNo(invoiceNo);
-		if(toUpdateInvoice != null) {
+	
 			toUpdateInvoice.setInvoiceNo(excelReader.getInvoiceNo());
 			toUpdateInvoice.setInvoiceDate(excelReader.getInvoiceDate());
 			toUpdateInvoice.setFinancedAmount(excelReader.getFinancedAmount());
 			toUpdateInvoice.setSetup(excelReader.getSetup());
 			toUpdateInvoice.setInterest(excelReader.getInterest());
 			toUpdateInvoice.setPaidAmt(excelReader.getPaidAmt());
-			toUpdateInvoice.setPaidDate(excelReader.getPaidDate());
+			//toUpdateInvoice.setPaidDate(excelReader.getPaidDate());
 			toUpdateInvoice.setCreditDays(excelReader.getCreditDays());
 			toUpdateInvoice.setDueDate(excelReader.getDueDate());
-			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
+			//toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
 			toUpdateInvoice.setBalAmt(excelReader.getBalAmt());
 			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
-			toUpdateInvoice.setStatusDays(1);
+			
+			if(excelReader.getPaidDate()==null) {
+				toUpdateInvoice.setPaidDate(null);
+				toUpdateInvoice.setStatusDays(0);
+			}
+			else if(excelReader.getPaidDate()!=null) {
+				toUpdateInvoice.setPaidDate(excelReader.getPaidDate());
+				toUpdateInvoice.setStatusDays(1);
+				
+			}
 			
 			
-			 if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()!=null ) {
-				toUpdateInvoice.setStatusDays(2);	
+			if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()==null ) {
+				toUpdateInvoice.setRecdDate(null);
+				toUpdateInvoice.setStatusDays(1);
 			}
-			 if(excelReader.getSecondPaidDate()!=null && excelReader.getPaidDate()!=null) {
-				toUpdateInvoice.setStatusDays(3);		
+			else if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()!=null ) {
+				toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
+				toUpdateInvoice.setStatusDays(2);
+				
 			}
+			
+			
+			if(excelReader.getRecdDate()!=null && excelReader.getSecondPaidDate()==null ) {
+				toUpdateInvoice.setSecondPaidDate(null);
+				toUpdateInvoice.setStatusDays(2);
+			}
+			else if(excelReader.getRecdDate()!=null && excelReader.getSecondPaidDate()!=null ) {
+				toUpdateInvoice.setRecdDate(excelReader.getSecondPaidDate());
+				toUpdateInvoice.setStatusDays(3);
+				
+			}
+			
+			
+		
+		
+			
 			
 			
 			updatedInvoice = excelReaderRepo.save(toUpdateInvoice);
 			
-		}
+		
 		return updatedInvoice;
 	}
 
