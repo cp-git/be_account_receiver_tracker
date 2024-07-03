@@ -382,7 +382,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 				toUpdateInvoice.setStatusDays(2);
 			}
 			else if(excelReader.getRecdDate()!=null && excelReader.getSecondPaidDate()!=null ) {
-				toUpdateInvoice.setRecdDate(excelReader.getSecondPaidDate());
+				toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
 				toUpdateInvoice.setStatusDays(3);
 				
 			}
