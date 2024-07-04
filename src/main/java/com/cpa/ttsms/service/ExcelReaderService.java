@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.cpa.ttsms.entity.ExcelReader;
+import com.cpa.ttsms.entity.IntrestData;
 
 public interface ExcelReaderService {
 
@@ -43,4 +44,7 @@ public interface ExcelReaderService {
 	public ExcelReader updateInvoiceByInvoiceNo(ExcelReader excelReader , String invoiceNo);
 	
 	public ExcelReader updateInvoiceById(ExcelReader excelReader , int id);
+public ExcelReader updateInvoiceAndFinancedPercentageById(ExcelReader excelReader , int id , double financedPercentage);
+	
+	public IntrestData getIntrestDataById(int id);
 }
