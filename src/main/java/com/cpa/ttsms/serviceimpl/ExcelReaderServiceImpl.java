@@ -493,6 +493,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	@Override
 	public ExcelReader insertExcelReader(ExcelReader excelReader) {
 		ExcelReader createInvoice = null;
+		excelReader.setStatusDays(0);
 		createInvoice = excelReaderRepo.save(excelReader);
 		return createInvoice;
 	}
