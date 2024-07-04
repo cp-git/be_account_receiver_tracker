@@ -536,13 +536,14 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
 			toUpdateInvoice.setBalAmt(balanceAmount);
 			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
-			toUpdateInvoice.setStatusDays(1);
-
-			if (excelReader.getPaidDate() != null && excelReader.getRecdDate() != null) {
-				toUpdateInvoice.setStatusDays(2);
-			}
-			if (excelReader.getSecondPaidDate() != null && excelReader.getPaidDate() != null) {
-				toUpdateInvoice.setStatusDays(3);
+			toUpdateInvoice.setFinancePercent(finance_rate);
+//			toUpdateInvoice.setStatusDays(1);
+//
+//			if (excelReader.getPaidDate() != null && excelReader.getRecdDate() != null) {
+//				toUpdateInvoice.setStatusDays(2);
+//			}
+//			if (excelReader.getSecondPaidDate() != null && excelReader.getPaidDate() != null) {
+//				toUpdateInvoice.setStatusDays(3);
 			}if(excelReader.getPaidDate()==null) {
 				toUpdateInvoice.setPaidDate(null);
 				toUpdateInvoice.setStatusDays(0);
@@ -577,7 +578,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 
 			updatedInvoice = excelReaderRepo.save(toUpdateInvoice);
 
-		}
+		
 		return updatedInvoice;
 	}
 

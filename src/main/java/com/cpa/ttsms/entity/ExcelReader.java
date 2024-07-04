@@ -73,6 +73,9 @@ public class ExcelReader {
 	
 	@Column(name="invoiceaddeddate")
 	private LocalDateTime invoiceAddedDate;
+	
+	@Column(name = "financePercent")
+	private Double financePercent;
 
 	public int getId() {
 		return id;
@@ -205,15 +208,30 @@ public class ExcelReader {
 	public void setStatusDays(Integer statusDays) {
 		this.statusDays = statusDays;
 	}
+	
+	
 
 	
 	
+	
+
+	
+	
+
+	public Double getFinancePercent() {
+		return financePercent;
+	}
+
+	public void setFinancePercent(Double financePercent) {
+		this.financePercent = financePercent;
+	}
+
 	
 
 	public ExcelReader(int id, String invoiceNo, LocalDate invoiceDate, Double invoiceAmt, Double financedAmount,
 			Double setup, Double interest, Double paidAmt, LocalDate paidDate, LocalDate dueDate, LocalDate recdDate,
-			Double balAmt, LocalDate secondPaidDate, int creditDays, Integer statusDays,
-			LocalDateTime invoiceAddedDate) {
+			Double balAmt, LocalDate secondPaidDate, int creditDays, Integer statusDays, LocalDateTime invoiceAddedDate,
+			Double financePercent) {
 		super();
 		this.id = id;
 		this.invoiceNo = invoiceNo;
@@ -231,6 +249,7 @@ public class ExcelReader {
 		this.creditDays = creditDays;
 		this.statusDays = statusDays;
 		this.invoiceAddedDate = invoiceAddedDate;
+		this.financePercent = financePercent;
 	}
 
 	public ExcelReader() {
@@ -244,9 +263,11 @@ public class ExcelReader {
 				+ invoiceAmt + ", financedAmount=" + financedAmount + ", setup=" + setup + ", interest=" + interest
 				+ ", paidAmt=" + paidAmt + ", paidDate=" + paidDate + ", dueDate=" + dueDate + ", recdDate=" + recdDate
 				+ ", balAmt=" + balAmt + ", secondPaidDate=" + secondPaidDate + ", creditDays=" + creditDays
-				+ ", statusDays=" + statusDays + ", invoiceAddedDate=" + invoiceAddedDate + "]";
+				+ ", statusDays=" + statusDays + ", invoiceAddedDate=" + invoiceAddedDate + ", financePercent="
+				+ financePercent + "]";
 	}
 
+	
 	
 
 	

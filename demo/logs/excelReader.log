@@ -3624,3 +3624,4 @@ java.lang.IllegalArgumentException: InvoiceNo cannot be null or empty
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:840)
+2024-Jul-04 15:24:06 [ERROR] - [http-nio-8090-exec-1] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: could not execute statement; SQL [n/a]; constraint [unique_fk]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
