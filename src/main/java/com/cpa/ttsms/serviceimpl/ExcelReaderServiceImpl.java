@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -537,6 +538,27 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			toUpdateInvoice.setBalAmt(balanceAmount);
 			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
 			toUpdateInvoice.setFinancePercent(finance_rate);
+			
+			
+			
+			  LocalDate startDate = excelReader.getDueDate();
+		       LocalDate endDate = excelReader.getPaidDate();
+
+		        // Calculate the number of days between the two dates
+		        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+		        System.out.println("Days in Between...."+daysBetween);
+		        if(daysBetween < 30) {
+		        	System.out.println("Intrest rate"+instrestrate_percent);
+		        	toUpdateInvoice.setIntrestRate(instrestrate_percent);
+		        }
+		        else {
+		        	System.out.println("Intrest rate"+instrestrate_percent*2);
+		        	toUpdateInvoice.setIntrestRate(instrestrate_percent * 2);
+		        	
+		        }
+
+			
+			toUpdateInvoice.setIntrestRate(instrestrate_percent);;
 //			toUpdateInvoice.setStatusDays(1);
 //
 //			if (excelReader.getPaidDate() != null && excelReader.getRecdDate() != null) {
@@ -575,6 +597,36 @@ System.out.println(invoiceDetails + "******invoice details*****");
 				toUpdateInvoice.setStatusDays(3);
 				
 			}
+			
+			
+			double instrestrate_percent = toUpdateIntrest.getInstrest_rate();
+			
+			double instrestrate_percent1 = toUpdateIntrest.getInstrest_rate() + toUpdateIntrest.getInstrest_rate();
+			 
+
+			  LocalDate startDate = excelReader.getPaidDate();
+		       LocalDate endDate = excelReader.getRecdDate();
+
+		        // Calculate the number of days between the two dates
+		        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+		        System.out.println("Days in Between...."+daysBetween);
+		        if(daysBetween < 30) {
+		        	System.out.println("Intrest rate"+instrestrate_percent);
+		        	toUpdateInvoice.setIntrestRate(instrestrate_percent);
+		        }
+		        else {
+		        	System.out.println("Intrest rate"+instrestrate_percent1);
+		        	toUpdateInvoice.setIntrestRate(instrestrate_percent1);
+		        	
+		        }
+			
+			 
+			  
+			
+//			 
+
+		
+			
 
 			updatedInvoice = excelReaderRepo.save(toUpdateInvoice);
 
