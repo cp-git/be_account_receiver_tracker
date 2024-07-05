@@ -3633,3 +3633,31 @@ java.lang.IllegalArgumentException: InvoiceNo cannot be null or empty
 2024-Jul-04 16:51:29 [ERROR] - [http-nio-8090-exec-2] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: null
 2024-Jul-04 16:51:42 [ERROR] - [http-nio-8090-exec-2] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: null
 2024-Jul-04 16:55:16 [ERROR] - [http-nio-8090-exec-5] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: null
+2024-Jul-04 18:16:50 [ERROR] - [http-nio-8090-exec-1] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-04 18:16:53 [ERROR] - [http-nio-8090-exec-2] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-04 18:23:54 [ERROR] - [http-nio-8090-exec-7] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-04 18:27:19 [ERROR] - [http-nio-8090-exec-9] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-04 18:31:02 [ERROR] - [http-nio-8090-exec-10] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-04 18:31:12 [ERROR] - [http-nio-8090-exec-1] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-04 18:31:27 [ERROR] - [http-nio-8090-exec-2] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-04 18:31:33 [ERROR] - [http-nio-8090-exec-4] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 10:22:59 [ERROR] - [http-nio-8090-exec-5] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: Cannot invoke "com.cpa.ttsms.entity.ExcelReader.setInvoiceNo(String)" because "toUpdateInvoice" is null
+2024-Jul-05 10:24:11 [ERROR] - [http-nio-8090-exec-7] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 10:24:13 [ERROR] - [http-nio-8090-exec-8] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 10:24:27 [ERROR] - [http-nio-8090-exec-1] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 10:43:18 [ERROR] - [http-nio-8090-exec-8] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 10:50:33 [ERROR] - [http-nio-8090-exec-3] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:00:51 [ERROR] - [http-nio-8090-exec-2] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: Cannot invoke "com.cpa.ttsms.entity.ExcelReader.setInvoiceNo(String)" because "toUpdateInvoice" is null
+2024-Jul-05 11:17:25 [ERROR] - [http-nio-8090-exec-10] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:23:57 [ERROR] - [http-nio-8090-exec-1] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:24:06 [ERROR] - [http-nio-8090-exec-8] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:24:52 [ERROR] - [http-nio-8090-exec-9] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:25:06 [ERROR] - [http-nio-8090-exec-10] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:25:32 [ERROR] - [http-nio-8090-exec-7] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:25:43 [ERROR] - [http-nio-8090-exec-1] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:46:08 [ERROR] - [http-nio-8090-exec-7] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:51:01 [ERROR] - [http-nio-8090-exec-3] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 11:51:06 [ERROR] - [http-nio-8090-exec-4] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: temporal
+2024-Jul-05 14:01:24 [ERROR] - [http-nio-8090-exec-2] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: Cannot invoke "java.time.temporal.Temporal.until(java.time.temporal.Temporal, java.time.temporal.TemporalUnit)" because "temporal1Inclusive" is null
+2024-Jul-05 15:35:19 [ERROR] - [http-nio-8090-exec-3] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: Cannot invoke "com.cpa.ttsms.entity.ExcelReader.setInvoiceNo(String)" because "toUpdateInvoice" is null
+2024-Jul-05 15:35:57 [ERROR] - [http-nio-8090-exec-5] c.c.t.c.ExcelReaderController  -- Failed to update Invoice: Cannot invoke "com.cpa.ttsms.entity.ExcelReader.setInvoiceNo(String)" because "toUpdateInvoice" is null

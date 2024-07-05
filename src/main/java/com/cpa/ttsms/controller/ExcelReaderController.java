@@ -231,6 +231,7 @@ public class ExcelReaderController {
 	    public ResponseEntity<Object> updateInvoiceAndFinPercentageById(@RequestBody ExcelReader excelReader, @PathVariable("id") int id,@PathVariable ("finPercentage")double finPercentage) {
 	        ExcelReader updateInvoice = null;
 	        try {
+	        	System.out.println("###" + excelReader);
 	        	System.out.println("In Controller...");
 	            updateInvoice = excelReaderService.updateInvoiceAndFinancedPercentageById(excelReader, id , finPercentage);
 

@@ -81,6 +81,10 @@ public class ExcelReader {
 	private Double intrestRate;
 	
 	
+	@Column(name = "intrestRecDate")
+	private Double intrestRecDate;
+	
+	
 
 	public int getId() {
 		return id;
@@ -235,10 +239,21 @@ public class ExcelReader {
 	}
 
 	
+	
+	public Double getIntrestRecDate() {
+		return intrestRecDate;
+	}
+
+	public void setIntrestRecDate(Double intrestRecDate) {
+		this.intrestRecDate = intrestRecDate;
+	}
+
+	
+
 	public ExcelReader(int id, String invoiceNo, LocalDate invoiceDate, Double invoiceAmt, Double financedAmount,
 			Double setup, Double interest, Double paidAmt, LocalDate paidDate, LocalDate dueDate, LocalDate recdDate,
 			Double balAmt, LocalDate secondPaidDate, int creditDays, Integer statusDays, LocalDateTime invoiceAddedDate,
-			Double financePercent, Double intrestRate) {
+			Double financePercent, Double intrestRate, Double intrestRecDate) {
 		super();
 		this.id = id;
 		this.invoiceNo = invoiceNo;
@@ -258,6 +273,7 @@ public class ExcelReader {
 		this.invoiceAddedDate = invoiceAddedDate;
 		this.financePercent = financePercent;
 		this.intrestRate = intrestRate;
+		this.intrestRecDate = intrestRecDate;
 	}
 
 	public ExcelReader() {
@@ -272,8 +288,10 @@ public class ExcelReader {
 				+ ", paidAmt=" + paidAmt + ", paidDate=" + paidDate + ", dueDate=" + dueDate + ", recdDate=" + recdDate
 				+ ", balAmt=" + balAmt + ", secondPaidDate=" + secondPaidDate + ", creditDays=" + creditDays
 				+ ", statusDays=" + statusDays + ", invoiceAddedDate=" + invoiceAddedDate + ", financePercent="
-				+ financePercent + ", intrestRate=" + intrestRate + "]";
+				+ financePercent + ", intrestRate=" + intrestRate + ", intrestRecDate=" + intrestRecDate + "]";
 	}
+
+	
 
 	
 
