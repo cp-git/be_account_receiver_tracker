@@ -640,6 +640,16 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			
 			
 			
+			
+			// Updated Code ////
+			
+			
+		  Double updatedDueAndPaid = finanaceAmount * instrestrate_percent * 2  / 100;
+			
+			Double updatedDueAndPaidAmount = finanaceAmount - IntrestRate - SetUpAmount;
+			
+			
+			
 
 		  
 		
@@ -666,9 +676,16 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		         if(daysBetweenDueAndPaid <= 30 &&  daysBetweenPaidAndRecDate <=30) {
 		        	//System.out.println("Intrest rate"+instrestrate_percent);
 		        	toUpdateInvoice.setIntrestRecDate(0.0);
-		        
+//		        	toUpdateInvoice.setBalAmt(balanceAmount);
 		        	
 		        }
+		         
+		         else if(daysBetweenDueAndPaid >=30 && daysBetweenPaidAndRecDate <=60) {
+		        		toUpdateInvoice.setIntrestRecDate(0.0);
+		        		toUpdateInvoice.setInterest(updatedDueAndPaid);
+		        		toUpdateInvoice.setPaidAmt(updatedDueAndPaidAmount);
+		         }
+		        
 
 		       
 		        else {
