@@ -569,7 +569,9 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		        // Calculate the number of days between the two dates
 		        long daysBetween = ChronoUnit.DAYS.between(endDate,startDate);
 		      //  System.out.println("Days in Between...."+daysBetween);
-		        if(daysBetween <= 30) {
+		        
+		        long beginInterval=30;
+		        if(daysBetween <= beginInterval) {
 		        	//System.out.println("Intrest rate Below 30 days");
 		        	toUpdateInvoice.setInterest(IntrestRate);
 		        	toUpdateInvoice.setIntrestRate(IntrestRate);
@@ -671,16 +673,20 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		        System.out.println("The Difference between Paid and Due Date");
 		        
 		        
+		        long beginInterVal=30;
+		        long lastInterval=60;
 		        
 		        
-		         if(daysBetweenDueAndPaid <= 30 &&  daysBetweenPaidAndRecDate <=30) {
+		        
+		        
+		         if(daysBetweenDueAndPaid <= beginInterVal &&  daysBetweenPaidAndRecDate <=lastInterval) {
 		        	//System.out.println("Intrest rate"+instrestrate_percent);
 		        	toUpdateInvoice.setIntrestRecDate(0.0);
 //		        	toUpdateInvoice.setBalAmt(balanceAmount);
 		        	
 		        }
 		         
-		         else if(daysBetweenDueAndPaid >=30 && daysBetweenPaidAndRecDate <=60) {
+		         else if(daysBetweenDueAndPaid >=beginInterVal && daysBetweenPaidAndRecDate <=lastInterval) {
 		        		toUpdateInvoice.setIntrestRecDate(0.0);
 		        		toUpdateInvoice.setInterest(updatedDueAndPaid);
 		        		toUpdateInvoice.setPaidAmt(updatedDueAndPaidAmount);
