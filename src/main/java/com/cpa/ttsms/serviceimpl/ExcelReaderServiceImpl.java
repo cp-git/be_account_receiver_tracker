@@ -568,7 +568,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		  
 		        // Calculate the number of days between the two dates
 		        long daysBetween = ChronoUnit.DAYS.between(endDate,startDate);
-		        System.out.println("Days in Between...."+daysBetween);
+		      //  System.out.println("Days in Between...."+daysBetween);
 		        if(daysBetween <= 30) {
 		        	//System.out.println("Intrest rate Below 30 days");
 		        	toUpdateInvoice.setInterest(IntrestRate);
@@ -640,8 +640,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			
 			
 			
-			
-			 
+
 		  
 		
 			
@@ -649,21 +648,48 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			if(toUpdateInvoice.getRecdDate()!=null) {
 			  LocalDate startDate = excelReader.getPaidDate();
 		       LocalDate endDate = excelReader.getRecdDate();
-		        // Calculate the number of days between the two dates
-		        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-		        System.out.println("Days in Between...."+daysBetween);
-		        if(daysBetween < 30) {
+		       
+		       LocalDate dueDate = excelReader.getDueDate();
+		       
+		        // Calculate the number of days between the two dates  :  paid date and received Date
+		        long daysBetweenPaidAndRecDate = ChronoUnit.DAYS.between(startDate, endDate);
+		        System.out.println("Days in Between PaidAndRecDate...."+daysBetweenPaidAndRecDate);
+		        
+		        
+		        
+		        long daysBetweenDueAndPaid = ChronoUnit.DAYS.between(startDate, dueDate);
+		        System.out.println("The Difference between Paid and Due Date");
+		        
+		        
+		        
+		        
+		         if(daysBetweenDueAndPaid <= 30 &&  daysBetweenPaidAndRecDate <=30) {
 		        	//System.out.println("Intrest rate"+instrestrate_percent);
 		        	toUpdateInvoice.setIntrestRecDate(0.0);
+		        
 		        	
 		        }
+
+		       
 		        else {
 		        	//System.out.println("Intrest rate"+instrestrate_percent1);
 		        	toUpdateInvoice.setIntrestRecDate(IntrestRate);
 		        	toUpdateInvoice.setBalAmt(balanceAmount);
 		        	
+		        
 		        }
 			}
+			
+			
+			
+			
+			
+			
+			
+			
+		       
+		       
+			
 			
 			
 			 
