@@ -548,80 +548,98 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		ExcelReader updatedInvoice = null;
 		toUpdateInvoice = excelReaderRepo.findById(id);
 		if (toUpdateIntrest != null) {
-			LocalDateTime today = LocalDateTime.now();
 			
+			
+
+			//Taking finance rate from intrest_data table
 			Double finance_rate = toUpdateIntrest.getFinance_percent();
+			System.out.println("Finance Percent from intrest data table"+finance_rate);
+			
+			//Taking finance rate from intrest_data table
 			double setuprate_percent = toUpdateIntrest.getSetup_percent();
+			System.out.println("setuprate_percent from intrest data table"+setuprate_percent);
+			
+			//Taking finance rate from intrest_data table
 			double instrestrate_percent = toUpdateIntrest.getInstrest_rate();
+			System.out.println("instrestrate_percent from intrest data table"+instrestrate_percent);
+			
+			
+			//Calculate  finanaceAmount 
 			Double finanaceAmount = excelReader.getInvoiceAmt() * finance_rate / 100;
+			System.out.println("Calculate  finanaceAmount "+finanaceAmount);
+			
+			//Calculate  balanceAmount 
 			Double balanceAmount = excelReader.getInvoiceAmt() - finanaceAmount;
+			System.out.println("Calculate  balanceAmount"+balanceAmount);
+			
+			//Calculate  SetUpAmount 
 			Double SetUpAmount = finanaceAmount * setuprate_percent / 100;
+			System.out.println("Calculate  SetUpAmount"+SetUpAmount);
+			
+			//Calculate  IntrestRate 
 			Double IntrestRate = finanaceAmount * instrestrate_percent / 100;
+			System.out.println("Calculate  IntrestRate "+IntrestRate);
+			
+			//Calculate  paidAmount 
 			Double paidAmount = finanaceAmount - IntrestRate - SetUpAmount;
 			
-			//excelReader.setDueDate(currentDate.plusDays(toUpdateIntrest.getCredited_days()));
-			excelReader.setCreditDays(toUpdateIntrest.getCredited_days());
+			System.out.println("Calculate  paidAmount "+paidAmount);
+			
+
 			toUpdateInvoice.setInvoiceNo(excelReader.getInvoiceNo());
 			toUpdateInvoice.setInvoiceDate(excelReader.getInvoiceDate());
 			toUpdateInvoice.setInvoiceAmt(excelReader.getInvoiceAmt());
-			toUpdateInvoice.setFinancedAmount(finanaceAmount);
-			toUpdateInvoice.setSetup(SetUpAmount);
-			
-//			System.out.println("@@@@@@@@@@@@@" + IntrestRate);
-			toUpdateInvoice.setPaidAmt(paidAmount);
 			toUpdateInvoice.setPaidDate(excelReader.getPaidDate());	
-			toUpdateInvoice.setCreditDays(excelReader.getCreditDays());
 			toUpdateInvoice.setDueDate(excelReader.getDueDate());
 			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
-			toUpdateInvoice.setBalAmt(balanceAmount);
 			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
-			toUpdateInvoice.setFinancePercent(finance_rate);
-			
-			
-			
-			
-			//Calculate the intrest Percent from paid date and due date
-			
-			
-			Double instrestData=toUpdateIntrest.getInstrest_rate();
-			System.out.println(instrestData);
-			
-			
 		
 			
+/////////////////////////////////////////////  DUE DATE AND PAID DATE CALCULATION /////////////////////////////////			
 			
-			
-			
-			
-			
-			//get the data from Due Date && End Date
-			  LocalDate startDate = excelReader.getDueDate();
-		      LocalDate endDate = excelReader.getPaidDate();
-			
-		      
-		      
-		      //New Intrest Calculation if update beyond 30 days
-		      Double IntrestRateUpdate = finanaceAmount * instrestrate_percent * 2 / 100;
+			 LocalDate dueDate = excelReader.getDueDate();
+		     LocalDate paidDate = excelReader.getPaidDate();
 		     
-		      // Need to Calculate the paid amount
-		  	 Double paidAmountUpdate = finanaceAmount - IntrestRateUpdate - SetUpAmount;
-		  
-		        // Calculate the number of days between the two dates
-		        long daysBetween = ChronoUnit.DAYS.between(endDate,startDate);
-		      //  System.out.println("Days in Between...."+daysBetween);
+		     
+		     // Calculate the number of days between the two dates
+		       long daysBetweenDueAndPaid = ChronoUnit.DAYS.between(paidDate,dueDate);
+		       System.out.println("The Days Between Due Date and Paid Date.."+daysBetweenDueAndPaid);
+		       
 		        
 		        long beginInterval=30;
-		        if(daysBetween <= beginInterval) {
+		        if(daysBetweenDueAndPaid <= beginInterval) {
 		        	//System.out.println("Intrest rate Below 30 days");
+		        	toUpdateInvoice.setFinancePercent(finance_rate);
+		        	toUpdateInvoice.setFinancedAmount(finanaceAmount);
 		        	toUpdateInvoice.setInterest(IntrestRate);
 		        	toUpdateInvoice.setIntrestRate(IntrestRate);
+		        	toUpdateInvoice.setSetup(SetUpAmount);
+		        	toUpdateInvoice.setPaidAmt(paidAmount);
+		        	
 		        	     
 		        }
 		        else {
-		        	toUpdateInvoice.setInterest(IntrestRateUpdate);
-		        	toUpdateInvoice.setIntrestRate(IntrestRateUpdate);
-		        	toUpdateInvoice.setPaidAmt(paidAmountUpdate);
-		        	 
+		        	
+//		        	Double finanaceAmount = excelReader.getInvoiceAmt() * finance_rate / 100;
+//					System.out.println("Calculate  finanaceAmount "+finanaceAmount);
+					
+					//Calculate  IntrestRate 
+					Double NormalIntrestRate = finanaceAmount * instrestrate_percent *2 / 100;
+					System.out.println("Calculate  IntrestRate "+IntrestRate);
+					
+					//Calculate  paidAmount 
+					Double paidAmountIntrest = finanaceAmount - NormalIntrestRate - SetUpAmount;
+					
+					System.out.println("Calculate  paidAmount "+paidAmount);
+		        	
+		       
+					
+					toUpdateInvoice.setFinancePercent(finance_rate);
+		        	toUpdateInvoice.setFinancedAmount(finanaceAmount);
+		        	toUpdateInvoice.setInterest(NormalIntrestRate);
+		        	toUpdateInvoice.setIntrestRate(NormalIntrestRate);
+		        	toUpdateInvoice.setSetup(SetUpAmount);
+		        	toUpdateInvoice.setPaidAmt(paidAmountIntrest);
 		        	
 		        }
 		       
@@ -630,43 +648,11 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			
 			
 
-			}if(excelReader.getPaidDate()==null) {
-				toUpdateInvoice.setPaidDate(null);
-				toUpdateInvoice.setStatusDays(0);
-			}
-			else if(excelReader.getPaidDate()!=null) {
-				toUpdateInvoice.setPaidDate(excelReader.getPaidDate());
-				toUpdateInvoice.setStatusDays(1);
-				
-				
-				
-			}
-			
-			
-			if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()==null ) {
-				toUpdateInvoice.setRecdDate(null);
-				toUpdateInvoice.setStatusDays(1);
-			}
-			else if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()!=null ) {
-				toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
-				toUpdateInvoice.setStatusDays(2);
-				
-			}
-			
-			
-			if(excelReader.getRecdDate()!=null && excelReader.getSecondPaidDate()==null ) {
-				toUpdateInvoice.setSecondPaidDate(null);
-				toUpdateInvoice.setStatusDays(2);
-			}
-			else if(excelReader.getRecdDate()!=null && excelReader.getSecondPaidDate()!=null ) {
-				toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
-				toUpdateInvoice.setStatusDays(3);
-				
 			}
 			
 			
 			
-			
+/////////////////////////////////////////////  PAID DATE AND RECEIVED  DATE CALCULATION /////////////////////////////////			
 
 			Double finance_rate = toUpdateIntrest.getFinance_percent();
 			double setuprate_percent = toUpdateIntrest.getSetup_percent();
@@ -680,21 +666,18 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			
 			Double balanceAmount = excelReader.getInvoiceAmt() - finanaceAmount -IntrestRate;
 			
+			Double balanceAmountOld = excelReader.getInvoiceAmt() - finanaceAmount;
 			
 			
 			
-			// Updated Code ////
+			
+		
 			
 			
 		  Double updatedDueAndPaid = finanaceAmount * instrestrate_percent * 2  / 100;
 			
 			Double updatedDueAndPaidAmount = finanaceAmount - IntrestRate - SetUpAmount;
-			
-			
-			
 
-		  
-		
 			
 			
 			if(toUpdateInvoice.getRecdDate()!=null) {
@@ -720,9 +703,8 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		        
 		        
 		         if(daysBetweenDueAndPaid <= beginInterVal &&  daysBetweenPaidAndRecDate <=lastInterval) {
-		        	//System.out.println("Intrest rate"+instrestrate_percent);
 		        	toUpdateInvoice.setIntrestRecDate(0.0);
-//		        	toUpdateInvoice.setBalAmt(balanceAmount);
+		        	toUpdateInvoice.setBalAmt(balanceAmountOld);
 		        	
 		        }
 		         
@@ -730,6 +712,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		        		toUpdateInvoice.setIntrestRecDate(0.0);
 		        		toUpdateInvoice.setInterest(updatedDueAndPaid);
 		        		toUpdateInvoice.setPaidAmt(updatedDueAndPaidAmount);
+		        		toUpdateInvoice.setBalAmt(balanceAmountOld);
 		         }
 		        
 
@@ -743,21 +726,49 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		        }
 			}
 			
+///////////////////////////// Enable the Status Using the paid date, rec date , second paid date/////////////////////////////////	
+			//
+			if(excelReader.getPaidDate()==null) {
+				toUpdateInvoice.setPaidDate(null);
+				toUpdateInvoice.setStatusDays(0);
+			}
+			else if(excelReader.getPaidDate()!=null) {
+				toUpdateInvoice.setPaidDate(excelReader.getPaidDate());
+				toUpdateInvoice.setStatusDays(1);
+				
+				
+				
+			}
 			
 			
+			if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()==null ) {
+				toUpdateInvoice.setRecdDate(null);
+				toUpdateInvoice.setStatusDays(1);
+				toUpdateInvoice.setIntrestRecDate(0.0);
+				toUpdateInvoice.setBalAmt(null);
+				
+				
+				
+			}
+			else if(excelReader.getPaidDate()!=null && excelReader.getRecdDate()!=null ) {
+				toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
+				toUpdateInvoice.setStatusDays(2);
+				
+			}
 			
 			
+			if(excelReader.getRecdDate()!=null && excelReader.getSecondPaidDate()==null ) {
+				toUpdateInvoice.setSecondPaidDate(null);
+				toUpdateInvoice.setStatusDays(2);
+			}
+			else if(excelReader.getRecdDate()!=null && excelReader.getSecondPaidDate()!=null ) {
+				toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
+				toUpdateInvoice.setStatusDays(3);
+				
+			}
 			
 			
-			
-		       
-		       
-			
-			
-			
-			 
-			
-		
+	
 		
 			
 			updatedInvoice = excelReaderRepo.save(toUpdateInvoice);
