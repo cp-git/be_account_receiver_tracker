@@ -602,7 +602,17 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		     
 		     
 		     // Calculate the number of days between the two dates
-		       long daysBetweenDueAndPaid = ChronoUnit.DAYS.between(paidDate,dueDate);
+		     /*
+		      * We are adding one to the difference between the 
+		      * "Due" date and "Paid" date to include the date on which
+		      * the amount was paid in the calculation to check for completion of 30 days.
+		      * For example If the Due date is on 4 July and financier provides the amount on 4 June 
+		      * the amount is given to client 31 days from the due date attracting an interest for
+		      * two 30 day intervals. 
+		      * 
+		      */
+		       long daysBetweenDueAndPaid = ChronoUnit.DAYS.between(paidDate,dueDate)+1;
+		       
 		       System.out.println("The Days Between Due Date and Paid Date.."+daysBetweenDueAndPaid);
 		       
 		        
@@ -687,7 +697,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		       LocalDate dueDate = excelReader.getDueDate();
 		       
 		        // Calculate the number of days between the two dates  :  paid date and received Date
-		        long daysBetweenPaidAndRecDate = ChronoUnit.DAYS.between(startDate, endDate);
+		        long daysBetweenPaidAndRecDate = ChronoUnit.DAYS.between(startDate, endDate)+1;
 		        System.out.println("Days in Between PaidAndRecDate...."+daysBetweenPaidAndRecDate);
 		        
 		        
