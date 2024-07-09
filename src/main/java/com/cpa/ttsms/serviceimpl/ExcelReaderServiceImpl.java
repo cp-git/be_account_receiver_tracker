@@ -184,7 +184,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	@Override
 	public List<ExcelReader> GetAllData() {
 		// TODO Auto-generated method stub
-		return excelReaderRepo.findAllByOrderByInvoiceAddedDateDesc();
+		return excelReaderRepo.findAllByOrderByInvoiceDateAsc();
 	}
 
 //	@Override
@@ -308,7 +308,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	@Override
 	public List<ExcelReader> getExcelReaderByStatusId(int statusDays) {
 		// TODO Auto-generated method stub
-		return excelReaderRepo.findByStatusDays(statusDays);
+		return excelReaderRepo.findByStatusDaysOrderByInvoiceDateAsc(statusDays);
 	}
 
 	@Override
