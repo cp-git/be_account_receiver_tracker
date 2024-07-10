@@ -58,4 +58,11 @@ public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
 	  List<ExcelReader> findAllBySecondPaidDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
 	  List<ExcelReader> findAllByRecdDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
 
+	  
+	  List<ExcelReader> findAllByPaidDateBetween(LocalDate startDate , LocalDate endDate);
+	  List<ExcelReader> findAllByRecdDateBetween(LocalDate startDate , LocalDate endDate);
+	  List<ExcelReader> findAllByInvoiceDateBetween(LocalDate startDate , LocalDate endDate);
+	  
+	  
+	  List<ExcelReader> findAllByPaidDateBetweenAndRecdDateIsNull(LocalDate startDate, LocalDate endDate);
 }

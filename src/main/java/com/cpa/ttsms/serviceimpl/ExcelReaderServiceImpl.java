@@ -311,19 +311,40 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		return excelReaderRepo.findByStatusDaysOrderByInvoiceDateAsc(statusDays);
 	}
 
+//	@Override
+//	public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate, LocalDate endDate,
+//			int status) {
+//		 List<ExcelReader> result;
+//		    if(status == 0) {
+//		        result = excelReaderRepo.findAllByinvoiceDateBetweenAndStatusDays(startDate, endDate, status);
+//		    } else if(status == 1) {
+//		        result = excelReaderRepo.findAllByPaidDateBetweenAndStatusDays(startDate, endDate, status);
+//		    } else if(status == 2) {
+//		        result = excelReaderRepo.findAllByRecdDateBetweenAndStatusDays(startDate, endDate, status);
+//		    }else if(status ==3) {
+//		    	 result = excelReaderRepo.findAllBySecondPaidDateBetweenAndStatusDays(startDate, endDate, status);
+//		    } else {
+//		        result = new ArrayList<>(); // Return an empty list or handle this case as needed
+//		    }
+//		    return result;
+//	}
+
+	
 	@Override
 	public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate, LocalDate endDate,
 			int status) {
 		 List<ExcelReader> result;
 		    if(status == 0) {
-		        result = excelReaderRepo.findAllByinvoiceDateBetweenAndStatusDays(startDate, endDate, status);
+		        result = excelReaderRepo.findAllByInvoiceDateBetween(startDate, endDate);
 		    } else if(status == 1) {
-		        result = excelReaderRepo.findAllByPaidDateBetweenAndStatusDays(startDate, endDate, status);
+		        result = excelReaderRepo.findAllByPaidDateBetween(startDate, endDate);
 		    } else if(status == 2) {
-		        result = excelReaderRepo.findAllByRecdDateBetweenAndStatusDays(startDate, endDate, status);
+		        result = excelReaderRepo.findAllByRecdDateBetween(startDate, endDate);
 		    }else if(status ==3) {
 		    	 result = excelReaderRepo.findAllBySecondPaidDateBetweenAndStatusDays(startDate, endDate, status);
-		    } else {
+		    } else if(status == 5){
+		    	result = excelReaderRepo.findAllByPaidDateBetweenAndRecdDateIsNull(startDate, endDate);
+		    }else {
 		        result = new ArrayList<>(); // Return an empty list or handle this case as needed
 		    }
 		    return result;
