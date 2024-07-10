@@ -550,7 +550,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		if (toUpdateIntrest != null) {
 			
 			
-
+			System.out.println();
 			//Taking finance rate from intrest_data table
 			Double finance_rate = toUpdateIntrest.getFinance_percent();
 			System.out.println("Finance Percent from intrest data table"+finance_rate);
@@ -578,11 +578,15 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			
 			//Calculate  IntrestRate 
 			Double IntrestRate = finanaceAmount * instrestrate_percent / 100;
+			
 			System.out.println("Calculate  IntrestRate "+IntrestRate);
+			
+			
 			
 			//Calculate  paidAmount 
 			Double paidAmount = finanaceAmount - IntrestRate - SetUpAmount;
-			
+			System.out.println("*************************************");
+			System.out.println(finanaceAmount -( IntrestRate + SetUpAmount ));
 			System.out.println("Calculate  paidAmount "+paidAmount);
 			
 
@@ -590,6 +594,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 			toUpdateInvoice.setInvoiceDate(excelReader.getInvoiceDate());
 			toUpdateInvoice.setInvoiceAmt(excelReader.getInvoiceAmt());
 			toUpdateInvoice.setPaidDate(excelReader.getPaidDate());	
+			
 			toUpdateInvoice.setDueDate(excelReader.getDueDate());
 			toUpdateInvoice.setRecdDate(excelReader.getRecdDate());
 			toUpdateInvoice.setSecondPaidDate(excelReader.getSecondPaidDate());
@@ -629,7 +634,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		        	     
 		        }
 		        else {
-		        	
+		        	System.out.println("Inside else part");
 //		        	Double finanaceAmount = excelReader.getInvoiceAmt() * finance_rate / 100;
 //					System.out.println("Calculate  finanaceAmount "+finanaceAmount);
 					
