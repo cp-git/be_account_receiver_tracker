@@ -6,9 +6,9 @@ spring.jpa:
 
 spring.datasource:
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://18.206.50.192:5432/invoicedetails
+  url: jdbc:postgresql://localhost:5432/invoicedetails
   username: postgres
   password: "7$Rt6&m,6&Ui4!as9^Yu2"
   
 server:
-  port : 8080
+  port : 8090
