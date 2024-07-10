@@ -738,14 +738,16 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		        
 		        
 		        
-		         if(daysBetweenDueAndPaid <= beginInterVal &&  daysBetweenPaidAndRecDate <=lastInterval) {
+		         if(daysBetweenDueAndPaid <= beginInterVal &&  daysBetweenPaidAndRecDate <= beginInterVal) {
+		        	System.out.println("Entered in First loop");
 		        	toUpdateInvoice.setIntrestRecDate(0.0);
 		        	toUpdateInvoice.setBalAmt(balanceAmountOld);
 		        	
 		        }
 		         
 		         else if(daysBetweenDueAndPaid >=beginInterVal && daysBetweenPaidAndRecDate <=lastInterval) {
-		        		toUpdateInvoice.setIntrestRecDate(0.0);
+		        	System.out.println("Enterd in Second if loop");	
+		        	 toUpdateInvoice.setIntrestRecDate(0.0);
 		        		toUpdateInvoice.setInterest(updatedDueAndPaid);
 		        		toUpdateInvoice.setPaidAmt(updatedDueAndPaidAmount);
 		        		toUpdateInvoice.setBalAmt(balanceAmountOld);
@@ -754,6 +756,8 @@ System.out.println(invoiceDetails + "******invoice details*****");
 
 		       
 		        else {
+		        	System.out.println("Entered in else loop @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		        	System.out.println("IntrestRecDate" + IntrestRate);
 		        	//System.out.println("Intrest rate"+instrestrate_percent1);
 		        	toUpdateInvoice.setIntrestRecDate(IntrestRate);
 		        	toUpdateInvoice.setBalAmt(balanceAmount);

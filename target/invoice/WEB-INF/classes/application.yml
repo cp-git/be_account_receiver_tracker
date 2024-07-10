@@ -6,13 +6,9 @@ spring.jpa:
 
 spring.datasource:
   driverClassName: org.postgresql.Driver
-<<<<<<< HEAD
 #  url: jdbc:postgresql://localhost:5432/invoicedetails
   url: jdbc:postgresql://18.206.50.192:5432/invoicedetails
 
-=======
-  url: jdbc:postgresql://localhost:5432/invoicedetails
->>>>>>> b3b06d55c0c6d4305c5ada4ae46419c598282fbe
   username: postgres
   password: "7$Rt6&m,6&Ui4!as9^Yu2"
   
