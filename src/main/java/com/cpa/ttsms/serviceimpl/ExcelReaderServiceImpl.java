@@ -329,21 +329,20 @@ System.out.println(invoiceDetails + "******invoice details*****");
 //		    return result;
 //	}
 
-	
 	@Override
 	public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate, LocalDate endDate,
 			int status) {
 		 List<ExcelReader> result;
 		    if(status == 0) {
-		        result = excelReaderRepo.findAllByInvoiceDateBetween(startDate, endDate);
+		        result = excelReaderRepo.findAllByInvoiceDateBetweenOrderByInvoiceDateDesc(startDate, endDate);
 		    } else if(status == 1) {
-		        result = excelReaderRepo.findAllByPaidDateBetween(startDate, endDate);
+		        result = excelReaderRepo.findAllByPaidDateBetweenOrderByPaidDateDesc(startDate, endDate);
 		    } else if(status == 2) {
-		        result = excelReaderRepo.findAllByRecdDateBetween(startDate, endDate);
+		        result = excelReaderRepo.findAllByRecdDateBetweenOrderByRecdDateDesc(startDate, endDate);
 		    }else if(status ==3) {
-		    	 result = excelReaderRepo.findAllBySecondPaidDateBetweenAndStatusDays(startDate, endDate, status);
+		    	 result = excelReaderRepo.findAllBySecondPaidDateBetweenAndStatusDaysOrderBySecondPaidDateDesc(startDate, endDate, status);
 		    } else if(status == 5){
-		    	result = excelReaderRepo.findAllByPaidDateBetweenAndRecdDateIsNull(startDate, endDate);
+		    	result = excelReaderRepo.findAllByPaidDateBetweenAndRecdDateIsNullOrderByPaidDateDesc(startDate, endDate);
 		    }else {
 		        result = new ArrayList<>(); // Return an empty list or handle this case as needed
 		    }
