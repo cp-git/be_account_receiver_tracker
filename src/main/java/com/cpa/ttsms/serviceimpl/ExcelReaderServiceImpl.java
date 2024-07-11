@@ -749,7 +749,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		        	System.out.println("Enterd in Second if loop");	
 		        	 toUpdateInvoice.setIntrestRecDate(0.0);
 		        		toUpdateInvoice.setInterest(updatedDueAndPaid);
-		        		toUpdateInvoice.setPaidAmt(updatedDueAndPaidAmount);
+//		        		toUpdateInvoice.setPaidAmt(updatedDueAndPaidAmount);
 		        		toUpdateInvoice.setBalAmt(balanceAmountOld);
 		         }
 		        
