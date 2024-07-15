@@ -23,14 +23,7 @@ import com.cpa.ttsms.entity.IntrestData;
 @Repository
 public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
 
-//	public ExcelReader findByExcelReaderlocationId(String locationid);
-//
-//	public List<Object> findByExcelReaderIsActiveTrue();
-//
-//	@Transactional
-//	@Modifying
-//	@Query(value = "UPDATE joblocation SET is_active=false WHERE locationid = ?1", nativeQuery = true)
-//	public int deleteExcelReaderBylocationId(String locationid);
+
 	
 	@Query(value = "select * from invoicedetails WHERE invoiceno = ?1", nativeQuery = true)
 	public ExcelReader getAllDataByInvoiceNumber(String invoiceNo);
@@ -39,19 +32,45 @@ public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
 	 
 	 ExcelReader findByInvoiceNo(String inovoiceNo);
 	 
+	 ExcelReader findById(int id);
+	 
 	 List<ExcelReader> findAllBydueDateBetween(LocalDate startDate, LocalDate endDate);
 	 
 	 
 	  List<ExcelReader> findAllByOrderByInvoiceAddedDateDesc();
+	  List<ExcelReader> findAllByOrderByInvoiceDateAsc();
 	  
+//	  List<ExcelReader> findAllByOrderByInvoiceDateAscInvoiceAddedDateDesc();
 	  
-	  List<ExcelReader> findByStatusDays(int statusDays);
+	 
+	  List<ExcelReader> findByStatusDaysOrderByInvoiceDateAsc(int statusDays);
 	  
-		
+	  	
 	  List<ExcelReader> findAllByinvoiceDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
 	  List<ExcelReader> findAllByPaidDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
 	  List<ExcelReader> findAllBySecondPaidDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
 	  List<ExcelReader> findAllByRecdDateBetweenAndStatusDays(LocalDate startDate, LocalDate endDate , int statusDay);
+
 	  List<ExcelReader> findByCompanyIdAndStatusDays(Long companyId,int statusDays);
 	  List<ExcelReader> findByCompanyId(Long companyId);
+
+
+	  
+	  List<ExcelReader> findAllByPaidDateBetween(LocalDate startDate , LocalDate endDate);
+	  List<ExcelReader> findAllByRecdDateBetween(LocalDate startDate , LocalDate endDate);
+	  List<ExcelReader> findAllByInvoiceDateBetween(LocalDate startDate , LocalDate endDate);
+	  
+	  
+	  List<ExcelReader> findAllByPaidDateBetweenAndRecdDateIsNull(LocalDate startDate, LocalDate endDate);
+	  
+	// By order
+		List<ExcelReader> findAllByInvoiceDateBetweenOrderByInvoiceDateDesc(LocalDate startDate, LocalDate endDate);
+		List<ExcelReader> findAllByPaidDateBetweenOrderByPaidDateDesc(LocalDate startDate, LocalDate endDate);
+		    List<ExcelReader> findAllByRecdDateBetweenOrderByRecdDateDesc(LocalDate startDate, LocalDate endDate);
+		    List<ExcelReader> findAllByPaidDateBetweenAndRecdDateIsNullOrderByPaidDateDesc(LocalDate startDate, LocalDate endDate);
+		    List<ExcelReader> findAllBySecondPaidDateBetweenAndStatusDaysOrderBySecondPaidDateDesc(LocalDate startDate, LocalDate endDate, int statusDays);
+
+	 
+		
+
 }

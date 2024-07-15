@@ -137,7 +137,9 @@ public class ExcelReaderController {
 		@PostMapping("/updatePaidDate")
 		public ResponseEntity<Boolean> updateInvoicesPaidDateAsTodaysDate(@RequestBody List<String> invoiceNumbers) {
 		    System.out.println("Updating invoices for numbers: " + invoiceNumbers);
+		    System.out.println("in Controller..");
 		    try {
+		    	
 		        boolean result = excelReaderService.updateInvoicesPaidDateAsTodaysDate(invoiceNumbers);
 		        return ResponseEntity.ok(result);
 		    } catch (Exception e) {
@@ -172,13 +174,7 @@ public class ExcelReaderController {
 		
 		@GetMapping("/invoiceProgress/{statusDays}")
 		public List<ExcelReader> invoiceProgressByStatusId(@PathVariable("statusDays") int statusDays) {
-			
-
-			
 				return excelReaderService.getExcelReaderByStatusId(statusDays);
-
-			
-
 		}
 		
 		@GetMapping("/filterDateRange")
@@ -190,6 +186,45 @@ public class ExcelReaderController {
 		    LocalDate end = LocalDate.parse(endDate);
 		    return excelReaderService.getInvoicesByRangeDatesOfInvoiceDateAndStatus(start, end, status);
 		}
+		
+		@PutMapping("/updateInvoice/{invoiceNo}")
+	    public ResponseEntity<Object> updateInvoiceByInvoiceNo(@RequestBody ExcelReader excelReader, @PathVariable("invoiceNo") String invoiceNo) {
+	        ExcelReader updateInvoice = null;
+	        try {
+	        	System.out.println("In Controller...");
+	            updateInvoice = excelReaderService.updateInvoiceByInvoiceNo(excelReader, invoiceNo);
+
+	            if (updateInvoice == null) {
+	                // If update is unsuccessful, generate an error response.
+	                return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err004");
+	            } else {
+	                return ResponseHandler.generateResponse(updateInvoice, HttpStatus.CREATED);
+	            }
+	        } catch (Exception ex) {
+	            // Log and throw a custom exception for error response.
+	            logger.error("Failed to update Invoice: " + ex.getMessage());
+	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
+	        }
+	    }
+		
+		@PutMapping("/updateInvoiceById/{id}")
+	    public ResponseEntity<Object> updateInvoiceById(@RequestBody ExcelReader excelReader, @PathVariable("id") int id) {
+	        ExcelReader updateInvoice = null;
+	        try {
+	        	System.out.println("In Controller...");
+	            updateInvoice = excelReaderService.updateInvoiceById(excelReader, id);
+	            if (updateInvoice == null) {
+	                // If update is unsuccessful, generate an error response.
+	                return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err004");
+	            } else {
+	                return ResponseHandler.generateResponse(updateInvoice, HttpStatus.CREATED);
+	            }
+	        } catch (Exception ex) {
+	            // Log and throw a custom exception for error response.
+	            logger.error("Failed to update Invoice: " + ex.getMessage());
+	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
+	        }
+	    }
 
 
 		 @GetMapping("/company-status/{companyId}/{statusDays}")
@@ -206,4 +241,58 @@ public class ExcelReaderController {
 		        return ResponseEntity.ok(excelReaders);
 		    }
 	
+
+//	            if (updateInvoice == null) {
+//	                // If update is unsuccessful, generate an error response.
+//	                return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err004");
+//	            } else {
+//	                return ResponseHandler.generateResponse(updateInvoice, HttpStatus.CREATED);
+//	            }
+//	        } catch (Exception ex) {
+//	            // Log and throw a custom exception for error response.
+//	            logger.error("Failed to update Invoice: " + ex.getMessage());
+//	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
+//	        }
+//	    }
+//		
+		@PutMapping("/updateInvoiceAndFinPercentageById/{id}/{finPercentage}")
+	    public ResponseEntity<Object> updateInvoiceAndFinPercentageById(@RequestBody ExcelReader excelReader, @PathVariable("id") int id,@PathVariable ("finPercentage")double finPercentage) {
+	        ExcelReader updateInvoice = null;
+	        try {
+	        	System.out.println("###" + excelReader);
+	        	System.out.println("In Controller...");
+	            updateInvoice = excelReaderService.updateInvoiceAndFinancedPercentageById(excelReader, id , finPercentage);
+
+	            if (updateInvoice == null) {
+	                // If update is unsuccessful, generate an error response.
+	                return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err004");
+	            } else {
+	                return ResponseHandler.generateResponse(updateInvoice, HttpStatus.CREATED);
+	            }
+	        } catch (Exception ex) {
+	            // Log and throw a custom exception for error response.
+	            logger.error("Failed to update Invoice: " + ex.getMessage());
+	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
+	        }
+	    }
+		
+		@GetMapping("/intrestData/{id}")
+	    public ResponseEntity<Object> getIntrestDataById(@PathVariable("id") int id) {
+	        IntrestData intrestData = null;
+	        try {
+	        	System.out.println("In Controller...");
+	        	intrestData = excelReaderService.getIntrestDataById(id);
+
+	            if (intrestData == null) {
+	                // If update is unsuccessful, generate an error response.
+	                return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err004");
+	            } else {
+	                return ResponseHandler.generateResponse(intrestData, HttpStatus.CREATED);
+	            }
+	        } catch (Exception ex) {
+	            // Log and throw a custom exception for error response.
+	            logger.error("Failed to update Invoice: " + ex.getMessage());
+	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
+	        }
+	    }
 }
