@@ -20,19 +20,19 @@ public class Company {
 @Column(name="company_id")
 private long companyId;
 
-@Column(name="company_name")
+@Column(name="company_name", nullable = false)
 private String companyName;
 
-@Column(name="company_address")
+@Column(name="company_address", nullable = false)
 private String companyAddress;
 
-@Column(name="company_person")
+@Column(name="company_person", nullable = false)
 private String companyPerson;
 
-@Column(name="company_contact")
+@Column(name="company_contact", unique = true,  nullable = false)
 private String companyContact;
 
-@Column(name="active")
+@Column(name="active",  nullable = false)
 private boolean active;
 
 /**

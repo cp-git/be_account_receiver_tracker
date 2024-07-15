@@ -263,4 +263,21 @@ public class ExcelReaderServiceImpl implements ExcelReaderService {
         }
         return result;
     }
+ 
+
+
+
+	@Override
+	public List<ExcelReader> getExcelReaderByCompanyIdAndStatus(Long companyId, int statusDays) {
+		// TODO Auto-generated method stub
+		   return excelReaderRepo.findByCompanyIdAndStatusDays(companyId, statusDays);
+
+	}
+
+	@Override
+	public List<ExcelReader> getExcelReaderByCompanyId(Long companyId) {
+		// TODO Auto-generated method stub
+		return excelReaderRepo.findByCompanyId(companyId);
+		
+	}
 }

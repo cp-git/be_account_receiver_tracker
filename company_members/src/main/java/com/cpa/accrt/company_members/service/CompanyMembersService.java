@@ -1,47 +1,64 @@
 package com.cpa.accrt.company_members.service;
 
-import java.util.List;
-import java.util.Optional;
+import com.cpa.accrt.company_members.dto.CompanyMembersDTO;
+import com.cpa.accrt.company_members.entity.Company;
+import com.cpa.accrt.company_members.entity.CompanyMembers;
+import com.cpa.accrt.company_members.entity.LoginDetails;
+import com.cpa.accrt.company_members.entity.Role;
+import com.cpa.accrt.company_members.repository.CompanyMembersRepository;
+import com.cpa.accrt.company_members.repository.CompanyRepository;
+import com.cpa.accrt.company_members.repository.LoginDetailsRepository;
+import com.cpa.accrt.company_members.repository.RoleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cpa.accrt.company_members.dto.CompanyMembersDTO;
-import com.cpa.accrt.company_members.entity.Company;
-import com.cpa.accrt.company_members.entity.CompanyMembers;
-import com.cpa.accrt.company_members.repository.CompanyMembersRepository;
-import com.cpa.accrt.company_members.repository.CompanyRepository;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompanyMembersService {
 
     private final CompanyRepository companyRepository;
     private final CompanyMembersRepository companyMembersRepository;
-
+    private final LoginDetailsRepository loginDetailsRepository;
+    private final RoleRepository roleRepository;
     @Autowired
-    public CompanyMembersService(CompanyRepository companyRepository, CompanyMembersRepository companyMembersRepository) {
+    public CompanyMembersService(CompanyRepository companyRepository, CompanyMembersRepository companyMembersRepository,
+                                 LoginDetailsRepository loginDetailsRepository, RoleRepository roleRepository) {
         this.companyRepository = companyRepository;
         this.companyMembersRepository = companyMembersRepository;
+        this.loginDetailsRepository = loginDetailsRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Transactional
     public void saveCompanyMember(CompanyMembersDTO companyMembersDTO) {
-        // Fetch company from database using company ID in DTO
-        Company company = companyRepository.findById(companyMembersDTO.getCompany().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Company with id " + companyMembersDTO.getCompany().getId() + " not found"));
+        Company company = companyRepository.findById(companyMembersDTO.getCompany().getCompanyId())
+                .orElseThrow(() -> new IllegalArgumentException("Company with id " + companyMembersDTO.getCompany().getCompanyId() + " not found"));
 
-        // Map DTO fields to entity fields
+        LoginDetails loginDetails = new LoginDetails();
+        loginDetails.setUsername(companyMembersDTO.getLoginDetails().getUsername());
+        loginDetails.setPassword(companyMembersDTO.getLoginDetails().getPassword());
+        loginDetails.setActive(companyMembersDTO.getLoginDetails().isActive());
+        loginDetails.setLoggedIn(companyMembersDTO.getLoginDetails().isIsloggedIn());
+     // Fetch or create a Role instance with ID 1 (SUPER_ADMIN), assuming Role is an entity
+        Role role = roleRepository.findById(companyMembersDTO.getLoginDetails().getRole().getId()).orElseThrow(() -> new RuntimeException("Role not found")); // Replace with your repository
+
+        role = roleRepository.save(role);
+        loginDetails.setRole(role);
+        loginDetails = loginDetailsRepository.save(loginDetails);
+
         CompanyMembers companyMembers = new CompanyMembers();
         companyMembers.setMemberName(companyMembersDTO.getMemberName());
         companyMembers.setMemberEmail(companyMembersDTO.getMemberEmail());
         companyMembers.setMemberContact(companyMembersDTO.getMemberContact());
-        companyMembers.setCompany(company); // Set the retrieved company
-
+        companyMembers.setActive(companyMembersDTO.isActive());
+        companyMembers.setCompany(company);
+        companyMembers.setLoginDetails(loginDetails);
         companyMembersRepository.save(companyMembers);
     }
-    
-    
 
     public Optional<CompanyMembers> getCompanyMemberById(Integer memberId) {
         return companyMembersRepository.findById(memberId);
@@ -51,73 +68,68 @@ public class CompanyMembersService {
         return companyMembersRepository.findAll();
     }
 
-    public void deleteCompanyMember(Integer memberId) {
-        companyMembersRepository.deleteById(memberId);
-    }
-
-    public boolean existsById(Integer memberId) {
-        return companyMembersRepository.existsById(memberId);
-    }
-
-//    @Transactional
-//
-//    public CompanyMembers updateCompanyMember(Integer memberId, CompanyMembers updatedMember) {
-//        Optional<CompanyMembers> optionalMember = companyMembersRepository.findById(memberId);
-//        if (optionalMember.isPresent()) {
-//            CompanyMembers existingMember = optionalMember.get();
-//            existingMember.setMember_name(updatedMember.getMember_name());
-//            existingMember.setMember_email(updatedMember.getMember_email());
-//            existingMember.setMember_contact(updatedMember.getMember_contact());
-//            existingMember.setCompany(updatedMember.getCompany());
-//            existingMember.setActive(updatedMember.isActive());
-//            return companyMembersRepository.save(existingMember);
-//        }
-//        return null; // Or throw an exception indicating the member was not found
-//    }
     @Transactional
     public CompanyMembers updateCompanyMember(Integer memberId, CompanyMembers updatedMember) {
         Optional<CompanyMembers> optionalMember = companyMembersRepository.findById(memberId);
         if (optionalMember.isPresent()) {
             CompanyMembers existingMember = optionalMember.get();
 
-            // Check if the Company is transient
-            Company updatedCompany = updatedMember.getCompany();
+            Company updatedCompany = companyRepository.findById(updatedMember.getCompany().getCompanyId())
+                    .orElseThrow(() -> new IllegalArgumentException("Company with id " + updatedMember.getCompany().getCompanyId() + " not found"));
 
-            Company companyObj = companyRepository.findByCompanyId(updatedMember.getCompany().getCompanyId());
-
-            if (updatedCompany != null) {
-                // Check if the company exists in the database
-                if (!companyRepository.existsById(updatedCompany.getCompanyId())) {
-                    // Ensure all required fields are set before saving
-                    if (updatedCompany.getCompanyContact() == null) {
-                        throw new IllegalArgumentException("Company contact cannot be null");
-                    }
-                    // Copy fields from existing company object
-                    updatedCompany.setCompanyName(companyObj.getCompanyName());
-                    updatedCompany.setCompanyAddress(companyObj.getCompanyAddress());
-                    updatedCompany.setCompanyPerson(companyObj.getCompanyPerson());
-                    updatedCompany.setCompanyContact(companyObj.getCompanyContact());
-                    updatedCompany.setActive(companyObj.isActive());
-                    System.out.println("Updated Company after setting values: " + updatedCompany);
-
-                    // Save the Company entity first if it does not exist
-                    updatedCompany = companyRepository.save(updatedCompany);
-                }
-            }
-
-            // Update member details
             existingMember.setMemberName(updatedMember.getMemberName());
             existingMember.setMemberEmail(updatedMember.getMemberEmail());
             existingMember.setMemberContact(updatedMember.getMemberContact());
-            existingMember.setCompany(updatedCompany); // Set the updated company
+            existingMember.setCompany(updatedCompany);
             existingMember.setActive(updatedMember.isActive());
 
-            // Save and return updated member
+            if (updatedMember.getLoginDetails() != null) {
+                LoginDetails updatedLoginDetails = updatedMember.getLoginDetails();
+                LoginDetails existingLoginDetails = existingMember.getLoginDetails();
+
+                existingLoginDetails.setUsername(updatedLoginDetails.getUsername());
+                existingLoginDetails.setPassword(updatedLoginDetails.getPassword());
+                existingLoginDetails.setActive(updatedLoginDetails.isActive());
+                existingLoginDetails.setLoggedIn(updatedLoginDetails.isLoggedIn());
+
+                if (updatedLoginDetails.getRole() != null) {
+                    Role updatedRole = roleRepository.findById(updatedLoginDetails.getRole().getId())
+                            .orElseThrow(() -> new IllegalArgumentException("Role with id " + updatedLoginDetails.getRole().getId() + " not found"));
+                    existingLoginDetails.setRole(updatedRole);
+                }
+
+                loginDetailsRepository.save(existingLoginDetails);
+            }
+
             return companyMembersRepository.save(existingMember);
         }
 
-        return null; // Or throw an exception indicating the member was not found
+        return null;
     }
 
-}
 
+    @Transactional
+    public void deleteCompanyMember(Integer memberId) {
+        CompanyMembers companyMember = companyMembersRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Company member with id " + memberId + " not found"));
+
+        LoginDetails loginDetails = companyMember.getLoginDetails();
+
+        companyMembersRepository.deleteById(memberId);
+
+        if (loginDetails != null) {
+            loginDetailsRepository.deleteById(loginDetails.getId());
+        }
+    }
+
+    // Other service methods...
+
+
+    public boolean existsById(Integer memberId) {
+        return companyMembersRepository.existsById(memberId);
+    }
+    
+    public CompanyMembers getCompanyMembersByLoginDetailsId(int loginDetailsId) {
+        return companyMembersRepository.findByLoginDetails_Id(loginDetailsId);
+    }
+}

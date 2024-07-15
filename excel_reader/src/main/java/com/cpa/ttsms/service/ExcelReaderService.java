@@ -40,4 +40,7 @@ public interface ExcelReaderService {
 	  List<ExcelReader> getExcelReaderByStatusId(int statusDays);
 	  
 		public List<ExcelReader> getInvoicesByRangeDatesOfInvoiceDateAndStatus(LocalDate startDate , LocalDate endDate ,int Status);
-}
+	    public List<ExcelReader> getExcelReaderByCompanyIdAndStatus(Long companyId,int statusDays);
+	    public List<ExcelReader> getExcelReaderByCompanyId(Long companyId);
+
+	    }

@@ -1,57 +1,96 @@
 package com.cpa.accrt.company_members.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class CompanyMembersDTO {
 
-    private String memberName;
-    private String memberEmail;
-    private String memberContact;
-    private CompanyDTO company;
-    private boolean active;
+	 private int id;
 
-    // Constructors
-    public CompanyMembersDTO() {
-        this.company = new CompanyDTO(); // Ensure company DTO is initialized
-    }
+	    @NotNull
+	    private String memberName;
 
-    // Getters and setters for memberName, memberEmail, memberContact, active
-    public String getMemberName() {
-        return memberName;
-    }
+	    @NotNull
+	    private String memberEmail;
 
-    public void setMemberName(String memberName) {
-        this.memberName = memberName;
-    }
+	    @NotNull
+	    private String memberContact;
 
-    public String getMemberEmail() {
-        return memberEmail;
-    }
+	    @NotNull
+	    private CompanyDTO company;
 
-    public void setMemberEmail(String memberEmail) {
-        this.memberEmail = memberEmail;
-    }
+	    @NotNull
+	    private LoginDetailsDTO loginDetails;
 
-    public String getMemberContact() {
-        return memberContact;
-    }
+	    @NotNull
+	    private boolean active;
 
-    public void setMemberContact(String memberContact) {
-        this.memberContact = memberContact;
-    }
+	    // Getters and Setters
+	    public int getId() {
+	        return id;
+	    }
 
-    public boolean isActive() {
-        return active;
-    }
+	    public void setId(int id) {
+	        this.id = id;
+	    }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+	    public String getMemberName() {
+	        return memberName;
+	    }
 
-    // Getters and setters for company
-    public CompanyDTO getCompany() {
-        return company;
-    }
+	    public void setMemberName(String memberName) {
+	        this.memberName = memberName;
+	    }
 
-    public void setCompany(CompanyDTO company) {
-        this.company = company;
-    }
+	    public String getMemberEmail() {
+	        return memberEmail;
+	    }
+
+	    public void setMemberEmail(String memberEmail) {
+	        this.memberEmail = memberEmail;
+	    }
+
+	    public String getMemberContact() {
+	        return memberContact;
+	    }
+
+	    public void setMemberContact(String memberContact) {
+	        this.memberContact = memberContact;
+	    }
+
+	    public CompanyDTO getCompany() {
+	        return company;
+	    }
+
+	    public void setCompany(CompanyDTO company) {
+	        this.company = company;
+	    }
+
+	    public LoginDetailsDTO getLoginDetails() {
+	        return loginDetails;
+	    }
+
+	    public void setLoginDetails(LoginDetailsDTO loginDetails) {
+	        this.loginDetails = loginDetails;
+	    }
+
+	    public boolean isActive() {
+	        return active;
+	    }
+
+	    public void setActive(boolean active) {
+	        this.active = active;
+	    }
+
+	    // Constructors
+	    public CompanyMembersDTO() {}
+
+	    public CompanyMembersDTO(int id, @NotNull String memberName, @NotNull String memberEmail, @NotNull String memberContact, @NotNull CompanyDTO company, @NotNull LoginDetailsDTO loginDetails, @NotNull boolean active) {
+	        this.id = id;
+	        this.memberName = memberName;
+	        this.memberEmail = memberEmail;
+	        this.memberContact = memberContact;
+	        this.company = company;
+	        this.loginDetails = loginDetails;
+	        this.active = active;
+	    }
 }

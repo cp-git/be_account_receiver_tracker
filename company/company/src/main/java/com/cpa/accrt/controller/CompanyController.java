@@ -12,6 +12,7 @@ import com.cpa.accrt.service.CompanyService;
 
 @RestController
 @RequestMapping("/api/companies")
+@CrossOrigin
 public class CompanyController {
 
     @Autowired

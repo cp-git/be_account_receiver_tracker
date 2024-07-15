@@ -37,7 +37,7 @@ import com.cpa.ttsms.service.ExcelReaderService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/excel")
+@RequestMapping("/invoice/excel")
 public class ExcelReaderController {
 
 	@Autowired
@@ -192,7 +192,18 @@ public class ExcelReaderController {
 		}
 
 
-	  
+		 @GetMapping("/company-status/{companyId}/{statusDays}")
+		    public ResponseEntity<List<ExcelReader>> getExcelReaderByCompanyIdAndstatus(@PathVariable Long companyId,@PathVariable int statusDays) {
+		        List<ExcelReader> excelReaders = excelReaderService.getExcelReaderByCompanyIdAndStatus(companyId,statusDays);
+		        return ResponseEntity.ok(excelReaders);
+		    }
 	
+	
+
+		 @GetMapping("/company/{companyId}")
+		    public ResponseEntity<List<ExcelReader>> getExcelReaderByCompanyId(@PathVariable Long companyId) {
+		        List<ExcelReader> excelReaders = excelReaderService.getExcelReaderByCompanyId(companyId);
+		        return ResponseEntity.ok(excelReaders);
+		    }
 	
 }

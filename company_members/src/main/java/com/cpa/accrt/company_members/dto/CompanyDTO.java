@@ -1,18 +1,32 @@
 package com.cpa.accrt.company_members.dto;
 
 public class CompanyDTO {
-    private Long id;
+    private Long companyId;
 
     // Constructors
     public CompanyDTO() {
     }
 
-    // Getters and setters for id
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * @return the companyId
+	 */
+	public Long getCompanyId() {
+		return companyId;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	/**
+	 * @param companyId the companyId to set
+	 */
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+
+	@Override
+	public String toString() {
+		return "CompanyDTO [companyId=" + companyId + "]";
+	}
+
+   
+    
+    
 }

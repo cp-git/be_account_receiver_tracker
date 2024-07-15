@@ -1,10 +1,15 @@
 package com.cpa.accrt.company_members.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +25,7 @@ import com.cpa.accrt.company_members.service.CompanyMembersService;
 
 @RestController
 @RequestMapping("/api/companyMembers")
+@CrossOrigin
 public class CompanyMembersController {
 
 	
@@ -28,13 +34,18 @@ public class CompanyMembersController {
 
 
 
-    @PostMapping("/saveCompanyMember")
-    public ResponseEntity<String> saveCompanyMember(@RequestBody CompanyMembersDTO companyMembersDTO) {
-        companyMembersService.saveCompanyMember(companyMembersDTO); // Delegate saving logic to service
 
-        // Optionally, you can return a success message or object if needed
-        return ResponseEntity.status(HttpStatus.CREATED).body("Company member saved successfully");
-    }
+	@PostMapping("/saveCompanyMember")
+	public ResponseEntity<Map<String, String>> saveCompanyMember(@Valid @RequestBody CompanyMembersDTO companyMembersDTO) {
+	    System.out.println(companyMembersDTO);
+	    companyMembersService.saveCompanyMember(companyMembersDTO); // Delegate saving logic to service
+
+	    Map<String, String> response = new HashMap<>();
+	    response.put("message", "Company member saved successfully");
+
+	    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+
     
     @GetMapping("/{memberId}")
     public ResponseEntity<CompanyMembers> getCompanyMemberById(@PathVariable Integer memberId) {
@@ -68,4 +79,11 @@ public class CompanyMembersController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    
+    @GetMapping("/by-login-details/{loginDetailsId}")
+    public CompanyMembers getCompanyMembersByLoginDetailsId(@PathVariable int loginDetailsId) {
+        return companyMembersService.getCompanyMembersByLoginDetailsId(loginDetailsId);
+    }
+    
+
 }
