@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.cpa.ttsms.entity.ExcelReader;
 import com.cpa.ttsms.entity.IntrestData;
 
@@ -50,4 +52,7 @@ public interface ExcelReaderService {
 			double financedPercentage);
 
 	public IntrestData getIntrestDataById(int id);
+	
+	Page<ExcelReader> getProducts(int pageNo, int pageSize) ;
+	
 }

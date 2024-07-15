@@ -19,6 +19,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cpa.ttsms.entity.ExcelReader;
@@ -447,7 +450,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	           
 	          excelReader.setDueDate(currentDate.plusDays(instestData.getCredited_days()));
 	          
-	          excelReader.setCreditDays(instestData.getCredited_days());
+	        //  excelReader.setCreditDays(instestData.getCredited_days());
 	          
 	         
 			toUpdateInvoice.setInvoiceNo(excelReader.getInvoiceNo());
@@ -535,6 +538,7 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	public ExcelReader insertExcelReader(ExcelReader excelReader) {
 		ExcelReader createInvoice = null;
 		excelReader.setStatusDays(0);
+		excelReader.setCreditDays(0);
 		createInvoice = excelReaderRepo.save(excelReader);
 		return createInvoice;
 	}
@@ -807,6 +811,11 @@ System.out.println(invoiceDetails + "******invoice details*****");
 		// TODO Auto-generated method stub
 		return intrestRepo.getIntrestDataById(id);
 	}
+	
+	 public Page<ExcelReader> getProducts(int pageNo, int pageSize) {
+	        Pageable pageable = PageRequest.of(pageNo, pageSize);
+	        return excelReaderRepo.findAll(pageable);
+	    }
 
 
 }
