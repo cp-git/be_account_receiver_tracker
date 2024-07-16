@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -73,5 +75,7 @@ public interface ExcelReaderRepo extends JpaRepository<ExcelReader, Integer> {
 		    List<ExcelReader> findAllByPaidDateBetweenAndRecdDateIsNullOrderByPaidDateDesc(LocalDate startDate, LocalDate endDate);
 		    List<ExcelReader> findAllBySecondPaidDateBetweenAndStatusDaysOrderBySecondPaidDateDesc(LocalDate startDate, LocalDate endDate, int statusDays);
 		
+		    
+		    Page<ExcelReader> findBystatusDays(int statusdays,Pageable pagable);
 
 }

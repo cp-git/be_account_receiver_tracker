@@ -19,6 +19,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cpa.ttsms.entity.ExcelReader;
@@ -835,6 +838,21 @@ System.out.println(invoiceDetails + "******invoice details*****");
 	public IntrestData getIntrestDataById(int id) {
 		// TODO Auto-generated method stub
 		return intrestRepo.getIntrestDataById(id);
+	}
+
+	@Override
+	public Page<ExcelReader> getProducts(int pageNo, int pageSize) {
+	    Pageable pageable = PageRequest.of(pageNo, pageSize);
+	     Page<ExcelReader> data = excelReaderRepo.findAll(pageable);
+	     System.out.println("*****"+data);
+        return excelReaderRepo.findAll(pageable);
+	}
+
+	@Override
+	public Page<ExcelReader> getProductsByName(int statusDays, int page, int size) {
+		// TODO Auto-generated method stub
+		 Pageable pageable = PageRequest.of(page, size);
+	       return excelReaderRepo.findBystatusDays(statusDays, pageable);
 	}
 
 

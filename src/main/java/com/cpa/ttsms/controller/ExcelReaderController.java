@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -266,5 +267,28 @@ public class ExcelReaderController {
 	            logger.error("Failed to update Invoice: " + ex.getMessage());
 	            return ResponseHandler.generateResponse(HttpStatus.INTERNAL_SERVER_ERROR, "err005"); // Assuming "err005" is a relevant error code for this situation
 	        }
+	    }
+		
+		@GetMapping("/data")
+	    public ResponseEntity<Page<ExcelReader>> getProducts(
+	            @RequestParam("pageNo") int pageNo,
+	            @RequestParam("pageSize") int pageSize) {
+	       System.out.println(pageNo + "&&&&& "+ pageSize);
+	        Page<ExcelReader> products = excelReaderService.getProducts(pageNo, pageSize);
+	        System.out.println(products.getContent());
+	        return ResponseEntity.ok(products);
+	    }
+		
+		@GetMapping("/products")
+	    public Page<ExcelReader> getProducts(
+	            @RequestParam("val") int page,
+	            @RequestParam("val1") int size,
+	            @RequestParam(required = false) int statusDays) {
+			System.out.println(page + "&&&&& "+ size);
+	        if (statusDays == 4) {
+	        	 return excelReaderService.getProducts(page, size);
+	        }
+	        return excelReaderService.getProductsByName(statusDays, page, size);
+	      
 	    }
 }
